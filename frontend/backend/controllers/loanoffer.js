@@ -90,6 +90,11 @@ exports.deleteLoanOffer = async (req, res) => {
             { $pull: { loanOffers: loanOfferId } } // Remove loan offer ID from array
         );
 
+        await User.updateOne(
+            {loanOffers:loanOfferId},
+            {$pull : {loanOffers:loanOfferId}}
+        );
+
         // 4. **Delete the Loan Offer**
         await LoanOffer.findByIdAndDelete(loanOfferId);
 
@@ -107,3 +112,32 @@ exports.deleteLoanOffer = async (req, res) => {
         });
     }
 };
+
+exports.showAllLoanOffers = async (req, res) => {
+    try {
+        // Fetch all loan offers
+        const loanOffers = await LoanOffer.find({});
+
+        // Check if no loan offers exist
+        if (loanOffers.length === 0) {
+            return res.status(404).json({
+                success: false,
+                message: "No loan offers found",
+            });
+        }
+
+        return res.status(200).json({
+            success: true,
+            message: "All loan offers retrieved successfully",
+            loanOffers,
+        });
+    } 
+    catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            success: false,
+            message: "Something went wrong while fetching loan offers",
+        });
+    }
+};
+
