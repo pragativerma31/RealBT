@@ -91,6 +91,7 @@ const Home = () => {
 
             </div>
             {/*Section 2*/}
+            
             {/*Section 3*/}
             {/*Footer*/}
 
