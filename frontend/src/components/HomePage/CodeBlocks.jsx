@@ -3,6 +3,7 @@ import CTAButton from "../HomePage/Button";
 import HighlightText from "../HomePage/HighlightText";
 import { FaArrowRight } from "react-icons/fa";
 
+
 const CodeBlocks = ({
     position, heading ,subheading, ctabtn1, ctabtn2 , codeblock, backgroundGradient, codeColor
 }) => {
@@ -33,6 +34,8 @@ const CodeBlocks = ({
                     {codeblock}
                 </div>      
             </div>
+            
+
             
         </div>
     )

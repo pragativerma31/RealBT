@@ -45,8 +45,8 @@ const PropertySchema = new mongoose.Schema({
         default: 0 
     }, 
     category: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Category" 
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Category" 
     },
     tags:[{
         type:String,

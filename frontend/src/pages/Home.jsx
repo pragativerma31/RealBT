@@ -123,7 +123,7 @@ const Home = () => {
 
             </div>
             {/*Section 2*/}
-
+        
             <div className="bg-pure-greys-5 text-richblack-900">
                 <div className="homepage_bg h-[310px]">
                     <div className="w-11/12 max-w-maxContent flex flex-col items-center justify-between gap-5  mx-auto">
@@ -173,10 +173,6 @@ const Home = () => {
 
 
             </div>
-
-
-
-
             {/*Section 3*/}
             {/*Footer*/}
 
