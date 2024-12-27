@@ -28,8 +28,12 @@ const CodeBlocks = ({
             </div>
 
             {/*section 2*/}
+            <div className={`w-[50%] ${backgroundGradient} p-10 rounded-lg`}>
+                <div className={`text-white ${codeColor}`}>
+                    {codeblock}
+                </div>      
+            </div>
             
-
         </div>
     )
 }
