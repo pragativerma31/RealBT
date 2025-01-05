@@ -7,7 +7,9 @@ import Banner from "../assets/Images/banner.mp4";
 import CodeBlocks from "../components/HomePage/CodeBlocks";
 import TimeLineSection from "../components/HomePage/TimeLineSection";
 import LearningSection from "../components/HomePage/LearningSection";
-
+import BankerSection from "../components/HomePage/BankerSection";
+import ExploreMore from "../components/HomePage/ExploreMore";
+import Footer from "../components/common/Footer";
 
 
 const Home = () => {
@@ -120,6 +122,7 @@ const Home = () => {
                         codeColor={"text-yellow-500"}
                     />
                 </div>
+                <ExploreMore />
 
             </div>
             {/*Section 2*/}
@@ -169,12 +172,20 @@ const Home = () => {
                     <LearningSection />
 
                 </div>
-
-
-
             </div>
             {/*Section 3*/}
+            <div className="w-11/12 mx-auto flex flex-col items-center justify-betweeen gap-5 max-w-maxContent bg-richblack-800 text-white">
+
+                <BankerSection />
+                <h2 className="text-center text-4xl font-semibold mt-10">Review from others</h2>
+                {/*Review Section*/}
+
+            </div>
+
+
+
             {/*Footer*/}
+            <Footer />
 
 
 
