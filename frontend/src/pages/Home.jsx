@@ -3,16 +3,25 @@ import { FaArrowRight } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import HighlightText from "../components/HomePage/HighlightText";
 import CTAButton from "../components/HomePage/Button";
-import Banner from "../assets/Images/banner.mp4";
+import Banner from "../assets/Images/Banner.png";
 import CodeBlocks from "../components/HomePage/CodeBlocks";
 import TimeLineSection from "../components/HomePage/TimeLineSection";
 import LearningSection from "../components/HomePage/LearningSection";
 import BankerSection from "../components/HomePage/BankerSection";
 import ExploreMore from "../components/HomePage/ExploreMore";
 import Footer from "../components/common/Footer";
+import SearchForm from "../components/HomePage/SearchForm";
+import { useRef } from "react";
 
 
 const Home = () => {
+    const formRef = useRef(null);
+
+    const handleFormSubmit = () => {
+        if (formRef.current) {
+            formRef.current.requestSubmit(); // Programmatically submit the form
+        }
+    };
     return (
         <div>
             {/*Section 1*/}
@@ -36,35 +45,26 @@ const Home = () => {
                     Search for the best properties in your area
                 </div>
 
-                <div className="flex flex-row gap-4 mt-8">
-                    <div className="bg-richblack-800 p-2 rounded-full">
-                        <input type="text" placeholder="Search for properties" className="bg-transparent border-none text-white w-80 p-2 focus:outline-none" />
-                    </div>
-                    <div className="bg-richblack-800 p-2 rounded-full">
-                        <input type="text" placeholder="Location" className="bg-transparent border-none text-white w-80 p-2 focus:outline-none" />
-                    </div>
-                    <div className="bg-richblack-800 p-2 rounded-full">
-                        <input type="text" placeholder="Price Range" className="bg-transparent border-none text-white w-80 p-2 focus:outline-none" />
-                    </div>
-                </div>
+                {/* Use SearchForm Component */}
+                <SearchForm ref={formRef} />
 
+                {/* Button to Trigger Form Submission */}
                 <div className="flex flex-row gap-4 mt-4">
-                    <CTAButton active={true} linkto={"/signup"}>
+                    <CTAButton active={true} linkto="#" onClick={handleFormSubmit}>
                         Search
                     </CTAButton>
                     <CTAButton active={false} linkto={"/login"}>
-                        Book a Demo
+                        Book a Visit
                     </CTAButton>
                 </div>
-
-                <div className='mx-5 mt-11 shadow-blue-200'>
-                    <video muted loop autoPlay>
-                        <source src={Banner} type="video/mp4" />
-                    </video>
+                
+                <div className="w-[1200px] h-[515px] mx-3 my-7 shadow-[0_0_50px_-10px] shadow-blue-100 mt-10 bg-richblack-25">
+                    <img src={Banner} alt="Banner" className="shadow-[20px_20px_rgba(255,255,255)] w-[1200px] h-[515px]" ></img>
                 </div>
 
+
                 {/*codeSection 1*/}
-                <div>
+                <div className="w-[90%]  mt-8">
                     <CodeBlocks
                         position={"lg:flex-row"}
                         heading={
@@ -94,7 +94,7 @@ const Home = () => {
                 </div>
 
                 {/*codeSection 2*/}
-                <div>
+                <div className="w-[90%]">
                     <CodeBlocks
                         position={"lg:flex-row-reverse"}
                         heading={
