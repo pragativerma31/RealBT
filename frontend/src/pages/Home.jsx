@@ -130,8 +130,8 @@ const Home = () => {
             <div className="bg-pure-greys-5 text-richblack-900">
                 <div className="homepage_bg h-[310px]">
                     <div className="w-11/12 max-w-maxContent flex flex-col items-center justify-between gap-5  mx-auto">
-                        <div className="h-[150px]"></div>
-                        <div className="flex flex-row gap-7 text-white">
+                        <div className="h-[150px] "></div>
+                        <div className="flex flex-row gap-7 mt-5 text-white">
                             <CTAButton active={true} linkto={"/signup"}>
                                 <div className="flex gap-2 items-center">
                                     Explore full catalog
