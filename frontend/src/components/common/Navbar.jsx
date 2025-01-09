@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -15,8 +16,8 @@ const Navbar = () => {
   const [subLinks, setSubLinks] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const location = useLocation();
 
+  const location = useLocation();
   // Fetch sublinks for the catalog
   useEffect(() => {
     (async () => {
@@ -36,15 +37,14 @@ const Navbar = () => {
     return matchPath({ path: route }, location.pathname);
   };
 
+
   return (
     <div className="flex h-12 items-center justify-center border-b-[1px] border-b-richblack-700">
       <div className="flex w-11/12 max-w-maxContent items-center justify-between">
-
         {/* Logo */}
         <Link to="/">
           <img src={Logo} alt="logo" width={160} height={42} />
         </Link>
-
         {/* Navigation Links */}
         <nav>
           <ul className="flex gap-x-6 text-richblack-25">
