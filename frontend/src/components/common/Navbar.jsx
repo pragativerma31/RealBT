@@ -7,7 +7,7 @@ import Logo from "../../assets/Logo/Logo-Full-Light.png";
 import { NavbarLinks } from "../../data/navbar-links";
 import { matchPath } from "react-router";
 import ProfileDropDown from "../core/Auth/ProfileDropDown";
-import apiConnector from "../../services/apiconnector";
+import apiConnector from "../../services/apiConnector";
 import { API_ENDPOINTS } from "../../services/apis";
 
 const Navbar = () => {
