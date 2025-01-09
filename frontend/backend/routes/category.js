@@ -9,10 +9,10 @@ const router = express.Router()
 // ********************************************************************************************************
 
 //create category
-router.post("/createCategory" ,auth , isAdmin, createcategory);
+router.post("/createCategory" , createcategory);//,auth , isAdmin,
 
 //showAll categories
-router.get("/getAllCategories" ,auth , isAdmin, ShowAllcategory);
+router.get("/getAllCategories" , ShowAllcategory); //,auth , isAdmin
 
 //delete category
 router.get("/deleteCategories/:id",auth , isAdmin , deleteCategory);

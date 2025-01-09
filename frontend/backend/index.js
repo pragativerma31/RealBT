@@ -14,6 +14,7 @@ const cors = require('cors');
 const {Cloudinary_Connect} = require('./config/cloudinary');
 const dotenv = require('dotenv');
 const fileUpload = require('express-fileupload');
+const { application } = require('express');
 
 dotenv.config()
 const PORT = process.env.PORT
@@ -41,7 +42,7 @@ app.use("/api/v1/auth" ,userRoutes);
 app.use("/api/v1/profile" ,profileRoutes);
 app.use("/api/v1/properties" ,propertyRoutes);
 app.use("/api/v1/categories" ,categoryRoutes );
-aoo.use("/api/v1/loanOffers" ,loanofferRoutes);
+app.use("/api/v1/loanOffers" ,loanofferRoutes);
 
 app.get("/" , (req,res) => {
     return res.json({
