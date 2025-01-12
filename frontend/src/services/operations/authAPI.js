@@ -118,7 +118,7 @@ export function login(email, password, navigate) {
 export function getPasswordResetToken(email, setEmailSent) {
   return async (dispatch) => {
     const toastId = toast.loading("Loading...")
-    dispatch(setLoading(true))
+    dispatch(setLoading(true));
     try {
       const response = await apiConnector("POST", RESETPASSTOKEN_API, {
         email,
@@ -179,3 +179,4 @@ export function logout(navigate) {
     navigate("/")
   }
 }
+
