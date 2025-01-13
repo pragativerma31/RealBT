@@ -13,41 +13,89 @@ const {
   RESETPASSWORD_API,
 } = endpoints
 
+// export function sendOtp(formdata, navigate) {
+//   return async (dispatch) => {
+//     const toastId = toast.loading("Loading...")
+//     dispatch(setLoading(true))
+//     try {
+//       const response = await apiConnector("POST", SENDOTP_API, {
+//         formdata,
+//         checkUserPresent: true,
+//       })
+//       console.log("SENDOTP API RESPONSE............", response)
+
+//       console.log(response.data.success)
+
+//       if (!response.data.success) {
+//         throw new Error(response.data.message)
+//       }
+
+//       toast.success("OTP Sent Successfully")
+//       navigate("/verify-email")
+//     } catch (error) {
+//       console.log("SENDOTP API ERROR............", error)
+//       toast.error("Could Not Send OTP")
+//     }
+//     dispatch(setLoading(false))
+//     toast.dismiss(toastId)
+//   }
+// }
 export function sendOtp(email, navigate) {
   return async (dispatch) => {
-    const toastId = toast.loading("Loading...")
-    dispatch(setLoading(true))
+    const toastId = toast.loading("Loading...");
+    dispatch(setLoading(true));
     try {
       const response = await apiConnector("POST", SENDOTP_API, {
-        email,
+        email , 
         checkUserPresent: true,
-      })
-      console.log("SENDOTP API RESPONSE............", response)
-
-      console.log(response.data.success)
+      });
+      console.log("SENDOTP API RESPONSE............", response);
 
       if (!response.data.success) {
-        throw new Error(response.data.message)
+        // If backend sends success: false, throw an error with its message
+        throw new Error(response.data.message);
       }
 
-      toast.success("OTP Sent Successfully")
-      navigate("/verify-email")
+      toast.success("OTP Sent Successfully");
+      navigate("/verify-email");
     } catch (error) {
-      console.log("SENDOTP API ERROR............", error)
-      toast.error("Could Not Send OTP")
+      console.error("SENDOTP API ERROR............", error);
+
+      // Handle Axios-specific errors
+      if (error.isAxiosError) {
+        if (error.code === "ECONNABORTED") {
+          toast.error("Request timed out. Please try again.");
+        } else if (error.response) {
+          // Errors with a response from the server
+          const errorMessage =
+            error.response.data?.message || "An error occurred. Please try again.";
+          toast.error(errorMessage);
+        } else if (error.request) {
+          // No response received from the server
+          toast.error("No response from the server. Please check your connection.");
+        } else {
+          // Axios-specific errors without a server response
+          toast.error("An unexpected error occurred. Please try again.");
+        }
+      } else {
+        // Non-Axios errors (unexpected issues)
+        toast.error(error.message || "Something went wrong.");
+      }
+    } finally {
+      dispatch(setLoading(false));
+      toast.dismiss(toastId);
     }
-    dispatch(setLoading(false))
-    toast.dismiss(toastId)
-  }
+  };
 }
 
+
+
 export function signUp(
-  accountType,
+  role,
   firstName,
   lastName,
   email,
   password,
-  confirmPassword,
   otp,
   navigate
 ) {
@@ -56,12 +104,11 @@ export function signUp(
     dispatch(setLoading(true))
     try {
       const response = await apiConnector("POST", SIGNUP_API, {
-        accountType,
+        role,
         firstName,
         lastName,
         email,
         password,
-        confirmPassword,
         otp,
       })
 
@@ -100,10 +147,6 @@ export function login(email, password, navigate) {
 
       toast.success("Login Successful")
       dispatch(setToken(response.data.token))
-      const userImage = response.data?.user?.image
-        ? response.data.user.image
-        : `https://api.dicebear.com/5.x/initials/svg?seed=${response.data.user.firstName} ${response.data.user.lastName}`
-      dispatch(setUser({ ...response.data.user, image: userImage }))
       localStorage.setItem("token", JSON.stringify(response.data.token))
       navigate("/dashboard/my-profile")
     } catch (error) {
@@ -126,18 +169,22 @@ export function getPasswordResetToken(email, setEmailSent) {
 
       console.log("RESETPASSTOKEN RESPONSE............", response)
 
-      if (!response.data.success) {
-        throw new Error(response.data.message)
+      if (response.data.success) {
+        toast.success("Reset Email Sent");
+        setEmailSent(true); // This updates the state correctly
+      } 
+      else {
+        throw new Error(response.data?.message || "Unexpected Error");
       }
-
-      toast.success("Reset Email Sent")
-      setEmailSent(true)
-    } catch (error) {
-      console.log("RESETPASSTOKEN ERROR............", error)
-      toast.error("Failed To Send Reset Email")
+    } 
+    catch (error) {
+      console.log("RESETPASSTOKEN ERROR............", error);
+      toast.error("Failed To Send Reset Email");
+    } 
+    finally {
+      toast.dismiss(toastId);
+      dispatch(setLoading(false));
     }
-    toast.dismiss(toastId)
-    dispatch(setLoading(false))
   }
 }
 

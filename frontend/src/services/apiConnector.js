@@ -50,8 +50,6 @@ const apiConnector = (method, url, bodyData, headers, params) => {
   });
 };
 
-export default {
-  apiConnector,
-  axiosInstance
-}
+export { axiosInstance }; // Optional export if you still need axiosInstance elsewhere
+export default apiConnector; // Export apiConnector directly
 

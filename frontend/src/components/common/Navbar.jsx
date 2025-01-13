@@ -125,11 +125,16 @@ const Navbar = () => {
           ) : (
             <>
               <Link to="/dashboard">
-                <button className="border border-richblack-700 bg-richblack-800 text-richblack-100 px-4 py-1 rounded-full">
+                <button className="border border-richblack-700 bg-richblack-800 text-richblack-100 px-4 py-1 rounded-[4px]">
                   Dashboard
                 </button>
               </Link>
               <ProfileDropDown />
+              <Link to="/logout">
+                <button className="border border-richblack-700 bg-richblack-800 text-richblack-100 px-4 py-1 rounded-[4px]">
+                  Log Out
+                </button>
+              </Link>
             </>
           )}
         </div>

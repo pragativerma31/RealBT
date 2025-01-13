@@ -8,7 +8,7 @@ exports.resetPassToken = async(req , res) =>{
     try{
         const {email} = req.body;
 
-        const exists = User.findOne({email});
+        const exists = await User.findOne({email});
 
         if(!exists){
             return res.status(400).json({
@@ -21,9 +21,9 @@ exports.resetPassToken = async(req , res) =>{
         const resetToken = uuidv4();
 
         //set token and expiration time in user object
-        User.token = resetToken;
-        User.resetPassTokenExpires = Date.now() + 5*60*1000; // Token expires in 1 hour
-        await User.save();
+        exists.token = resetToken;
+        exists.resetPassTokenExpires = Date.now() + 5*60*1000; // Token expires in 1 hour
+        await exists.save();
 
         //create url
         const resetURL = `http://localhost:3000/reset-password/${resetToken}`;
@@ -31,11 +31,12 @@ exports.resetPassToken = async(req , res) =>{
         await mailsender(email , "Reset Your Password" , `Click on the link to reset your password ${resetURL}`);
 
         return res.status(200).json({
-            sucess:true,
+            success:true,
             message:"email sent successfully , please check mail and change password"
         })
     }
     catch(err){
+        console.error("Error in resetPassToken:", err.message); // Log the error for debugging
         return res.status(500).json({
             success:false,
             message:"Something went wrong while send reset Password mail",

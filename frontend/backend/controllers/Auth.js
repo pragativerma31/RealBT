@@ -18,7 +18,7 @@ exports.sendOTP = async(req, res) => {
         if(checkUSER){
             return res.status(401).json({
                 success: false,
-                message:"user already registered , Try Login in"
+                message:"User already registered , Try Login in"
             })
         }
 
@@ -55,6 +55,7 @@ exports.sendOTP = async(req, res) => {
     }
     catch(err){
         res.status(500).json({
+            err,
             success:false.valueOf,
             message:"Error in otp generation"
         })
@@ -65,39 +66,16 @@ exports.sendOTP = async(req, res) => {
 exports.signUP = async(req,res) =>{
     try{
         //data fetch
+        console.log("Request Body:", req.body); 
         const {
             firstName,
             lastName,
             password,
-            Confirmpassword,
             email,
             otp,
             role
         } =req.body;
     
-        //validate data
-        if(!firstName || !lastName || !password || !Confirmpassword || !email){
-            return res.status(403).json({
-                success:false,
-                message:"All fields are required"
-            })
-        }
-    
-        if(password !== Confirmpassword){
-            return res.status(400).json({
-                success:false,
-                message:"password and confirm password do not match"
-            })
-        }
-    
-        //check if already exists
-        const existingUser = await User.findOne({email});
-        if(existingUser){
-            return res.status(401).json({
-                success: false,
-                message:"user already registered , Try Login in"
-            })
-        }
     
         //find recent otp
         const mostRecentOTP = await OTP.findOne({ email }) // Filter by email if needed
@@ -131,7 +109,7 @@ exports.signUP = async(req,res) =>{
             firstName,
             lastName,
             email,
-            password,
+
             role,
             password:hashedpass,
             AdditionalDetails:null,
@@ -148,13 +126,13 @@ exports.signUP = async(req,res) =>{
         user.AdditionalDetails = profile._id;
         await user.save();
 
-        return res.status(200).json({
+        return res.status(201).json({
             success: true,
             message:"User Created Successfully"
         })
     }
     catch(err){
-        return res.status(400).json({
+        return res.status(500).json({
             success: false,
             message:"error in creating user",
             err,
@@ -185,7 +163,7 @@ exports.LogIN = async(req,res) =>{
         if(!existingUser){
             return res.status(401).json({
                 success: false,
-                message:"user not registered , Sign up first"
+                message:"User not registered , Sign up first"
             })
         }
         //generate jwt after password matching
