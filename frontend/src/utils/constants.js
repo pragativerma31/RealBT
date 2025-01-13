@@ -1,6 +1,7 @@
 export const ACCOUNT_TYPE = {
-    STUDENT: "Student",
-    INSTRUCTOR: "Instructor",
+    BROKER: "Broker",
+    LOANPROVIDER: "Banker",
+    CUSTOMER:"Customer",
     ADMIN: "Admin",
   }
   

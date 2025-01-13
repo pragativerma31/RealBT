@@ -14,7 +14,7 @@ function SignupForm() {
   const dispatch = useDispatch()
 
   // student or instructor
-  const [accountType, setAccountType] = useState(ACCOUNT_TYPE.STUDENT)
+  const [role, setRole] = useState(ACCOUNT_TYPE.CUSTOMER)
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -47,7 +47,7 @@ function SignupForm() {
     }
     const signupData = {
       ...formData,
-      accountType,
+      role,
     }
 
     // Setting signup data to state
@@ -64,27 +64,32 @@ function SignupForm() {
       password: "",
       confirmPassword: "",
     })
-    setAccountType(ACCOUNT_TYPE.STUDENT)
+    setRole(ACCOUNT_TYPE.CUSTOMER)
   }
 
   // data to pass to Tab component
   const tabData = [
     {
       id: 1,
-      tabName: "Student",
-      type: ACCOUNT_TYPE.STUDENT,
+      tabName: "Customer",
+      type: ACCOUNT_TYPE.CUSTOMER,
     },
     {
       id: 2,
-      tabName: "Instructor",
-      type: ACCOUNT_TYPE.INSTRUCTOR,
+      tabName: "Broker",
+      type: ACCOUNT_TYPE.BROKER,
+    },
+    {
+      id: 3,
+      tabName: "Loan Provider",
+      type: ACCOUNT_TYPE.LOANPROVIDER,
     },
   ]
 
   return (
     <div>
       {/* Tab */}
-      <Tab tabData={tabData} field={accountType} setField={setAccountType} />
+      <Tab tabData={tabData} field={role} setField={setRole} />
       {/* Form */}
       <form onSubmit={handleOnSubmit} className="flex w-full flex-col gap-y-4">
         <div className="flex gap-x-4">
@@ -98,7 +103,7 @@ function SignupForm() {
               name="firstName"
               value={firstName}
               onChange={handleOnChange}
-              placeholder="Enter first name"
+              placeholder=" First Name"
               className="form-style w-full"
             />
           </label>
@@ -112,7 +117,7 @@ function SignupForm() {
               name="lastName"
               value={lastName}
               onChange={handleOnChange}
-              placeholder="Enter last name"
+              placeholder=" Last Name"
               className="form-style w-full"
             />
           </label>
@@ -127,7 +132,7 @@ function SignupForm() {
             name="email"
             value={email}
             onChange={handleOnChange}
-            placeholder="Enter email address"
+            placeholder=" Email Address"
             className="form-style w-full"
           />
         </label>
@@ -142,12 +147,12 @@ function SignupForm() {
               name="password"
               value={password}
               onChange={handleOnChange}
-              placeholder="Enter Password"
+              placeholder=" Password"
               className="form-style w-full !pr-10"
             />
             <span
               onClick={() => setShowPassword((prev) => !prev)}
-              className="absolute right-3 top-[38px] z-[10] cursor-pointer"
+              className="absolute right-3 top-[26px] z-[10] cursor-pointer"
             >
               {showPassword ? (
                 <AiOutlineEyeInvisible fontSize={24} fill="#AFB2BF" />
@@ -166,12 +171,12 @@ function SignupForm() {
               name="confirmPassword"
               value={confirmPassword}
               onChange={handleOnChange}
-              placeholder="Confirm Password"
+              placeholder=" Confirm Password"
               className="form-style w-full !pr-10"
             />
             <span
               onClick={() => setShowConfirmPassword((prev) => !prev)}
-              className="absolute right-3 top-[38px] z-[10] cursor-pointer"
+              className="absolute right-3 top-[26px] z-[10] cursor-pointer"
             >
               {showConfirmPassword ? (
                 <AiOutlineEyeInvisible fontSize={24} fill="#AFB2BF" />

@@ -6,6 +6,7 @@ const profileRoutes = require('./routes/Profile');
 const propertyRoutes = require('./routes/Property');
 const loanofferRoutes = require('./routes/loanoffer');
 const categoryRoutes = require('./routes/category');
+const resetpassRoutes = require('./routes/resetPass');
 
 
 const database = require('./config/databse');
@@ -43,6 +44,7 @@ app.use("/api/v1/profile" ,profileRoutes);
 app.use("/api/v1/properties" ,propertyRoutes);
 app.use("/api/v1/categories" ,categoryRoutes );
 app.use("/api/v1/loanOffers" ,loanofferRoutes);
+app.use("/api/v1/password" , resetpassRoutes);
 
 app.get("/" , (req,res) => {
     return res.json({

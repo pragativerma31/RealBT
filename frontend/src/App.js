@@ -4,8 +4,9 @@ import Home from "./pages/Home";
 import Navbar from "./components/common/Navbar";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import ForgetPass from "./pages/ForgetPass";
+import ForgotPass from "./pages/ForgotPass";
 import UpdatePass from "./pages/UpdatePass";
+import VerifyEmail from "./pages/VerifyEmail";
 
 function App() {
   return (
@@ -15,8 +16,9 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login/>} />
         <Route path="/signup" element = {<Signup/>} />
-        <Route path="/forgot-password" element = {<ForgetPass/>} />
+        <Route path="/forgot-password" element = {<ForgotPass/>} />
         <Route path="/update-password/:id" element = {<UpdatePass/>} />
+        <Route path="/verify-email" element={<VerifyEmail/>}/>
       </Routes>
 
     </div>
