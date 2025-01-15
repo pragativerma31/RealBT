@@ -13,33 +13,7 @@ const {
   RESETPASSWORD_API,
 } = endpoints
 
-// export function sendOtp(formdata, navigate) {
-//   return async (dispatch) => {
-//     const toastId = toast.loading("Loading...")
-//     dispatch(setLoading(true))
-//     try {
-//       const response = await apiConnector("POST", SENDOTP_API, {
-//         formdata,
-//         checkUserPresent: true,
-//       })
-//       console.log("SENDOTP API RESPONSE............", response)
 
-//       console.log(response.data.success)
-
-//       if (!response.data.success) {
-//         throw new Error(response.data.message)
-//       }
-
-//       toast.success("OTP Sent Successfully")
-//       navigate("/verify-email")
-//     } catch (error) {
-//       console.log("SENDOTP API ERROR............", error)
-//       toast.error("Could Not Send OTP")
-//     }
-//     dispatch(setLoading(false))
-//     toast.dismiss(toastId)
-//   }
-// }
 export function sendOtp(email, navigate) {
   return async (dispatch) => {
     const toastId = toast.loading("Loading...");
@@ -216,14 +190,37 @@ export function resetPassword(password, confirmPassword, token, navigate) {
   }
 }
 
-export function logout(navigate) {
-  return (dispatch) => {
-    dispatch(setToken(null))
-    dispatch(setUser(null))
-    localStorage.removeItem("token")
-    localStorage.removeItem("user")
-    toast.success("Logged Out")
-    navigate("/")
-  }
-}
+export const handleLogout = async (dispatch, navigate) => {
+  try {
+      // Notify the backend to invalidate the token
+      const token = localStorage.getItem('token');
+      console.log(token);
+      const response = await apiConnector("POST", endpoints.LOGOUT_API, {}, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true, // If using cookies, also ensure this is true
+      });
 
+
+      if (response.data.success) {
+          // Update Redux store
+          dispatch(setToken(null));
+          dispatch(setUser(null));
+
+          // Clear the token and user data from localStorage
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
+
+          // Show a toast notification
+          toast.success('Logged out successfully');
+
+          // Redirect to login page
+          navigate('/login');
+      } else {
+          console.error('Logout failed:', response.data.message);
+      }
+  } catch (error) {
+      console.error('Error during logout:', error);
+  }
+};

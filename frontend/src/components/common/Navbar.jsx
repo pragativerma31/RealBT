@@ -9,6 +9,8 @@ import { matchPath } from "react-router";
 import ProfileDropDown from "../core/Auth/ProfileDropDown";
 import apiConnector from "../../services/apiConnector";
 import { API_ENDPOINTS } from "../../services/apis";
+import { handleLogout } from "../../services/operations/authAPI";
+
 
 const Navbar = () => {
   const { token } = useSelector((state) => state.auth);
@@ -130,11 +132,10 @@ const Navbar = () => {
                 </button>
               </Link>
               <ProfileDropDown />
-              <Link to="/logout">
-                <button className="border border-richblack-700 bg-richblack-800 text-richblack-100 px-4 py-1 rounded-[4px]">
-                  Log Out
-                </button>
-              </Link>
+              <button onClick={handleLogout} className="border border-richblack-700 bg-richblack-800 text-richblack-100 px-4 py-1 rounded-[4px]">
+                Log Out
+              </button>
+              
             </>
           )}
         </div>

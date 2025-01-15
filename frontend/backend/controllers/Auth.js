@@ -175,11 +175,14 @@ exports.LogIN = async(req,res) =>{
             }
             const token  = jwt.sign(payload , process.env.JWT_SECRET ,{expiresIn:'2h'});
             existingUser.token = token;
+            console.log(token);
+            await existingUser.save();
             existingUser.password = undefined;
+            
 
             //create cookie
             const options ={
-                expiresIn : new Date(Date.now() + 3*24*60*60*1000),
+                expiresIn : new Date(Date.now() + 2 * 60 * 60 * 1000),
                 httpOnly: true,
             }
             res.cookie("token" ,token , options).status(200).json({
@@ -208,8 +211,10 @@ exports.LogIN = async(req,res) =>{
 }
 exports.LogOut = async (req, res) => {
     try {
-        // Check if the user is logged in by verifying the JWT token
-        const token = req.cookies.token;
+        // Extract the token from cookies
+        const authHeader = req.headers.authorization;
+        const token = authHeader?.startsWith("Bearer ") 
+            ? authHeader.split(" ")[1] : req.cookies?.token;
 
         if (!token) {
             return res.status(400).json({
@@ -218,37 +223,40 @@ exports.LogOut = async (req, res) => {
             });
         }
 
-        // Clear the token from the user's document in the database (optional)
-        const user = await User.findOneAndUpdate(
-            { token: token }, 
-            { token: null },  // Remove the token from the user's document
-            { new: true }
-        );
+        // Verify if the token exists in the database
+        const user = await User.findOne({ token });
 
         if (!user) {
             return res.status(404).json({
                 success: false,
-                message: "User not found.",
+                message: "User not found or already logged out.",
             });
         }
 
-        // Clear the cookie holding the token
-        res.clearCookie('token'); // Clearing the token from cookies
+        // Clear the token from the user's record in the database
+        await User.updateOne({ _id: user._id }, { $unset: { token: "" } });
+
+        // Clear the token from cookies
+        res.clearCookie("token", {
+            httpOnly: true,  // Ensure the cookie is inaccessible via client-side JavaScript
+            secure: true,    // Ensure the cookie is only sent over HTTPS (adjust for development)
+            sameSite: "strict", // Prevent CSRF
+        });
 
         // Respond with success
-        res.status(200).json({
+        return res.status(200).json({
             success: true,
-            message: "Logged out successfully",
+            message: "Logged out successfully.",
         });
-    } 
-    catch (err) {
+    } catch (err) {
         console.error("Error during logout:", err);
-        res.status(500).json({
+        return res.status(500).json({
             success: false,
             message: "Something went wrong during logout.",
         });
     }
 };
+
 
 
 exports.changePassword = async (req, res) => {
