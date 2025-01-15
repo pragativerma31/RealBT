@@ -7,6 +7,7 @@ import Signup from "./pages/Signup";
 import ForgotPass from "./pages/ForgotPass";
 import UpdatePass from "./pages/UpdatePass";
 import VerifyEmail from "./pages/VerifyEmail";
+import AboutUs from "./pages/AboutUs";
 
 function App() {
   return (
@@ -19,6 +20,8 @@ function App() {
         <Route path="/forgot-password" element = {<ForgotPass/>} />
         <Route path="/update-password/:id" element = {<UpdatePass/>} />
         <Route path="/verify-email" element={<VerifyEmail/>}/>
+        <Route path="/about" element={<AboutUs/>}/>
+        {/* <Route path="/logout" element={<Home/>}/> */}
       </Routes>
 
     </div>

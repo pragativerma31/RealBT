@@ -1,6 +1,6 @@
 // Import the required modules
 const express = require("express");
-const { LogIN, signUP, sendOTP, changePassword } = require("../controllers/Auth");
+const { LogIN, signUP, sendOTP, changePassword, LogOut } = require("../controllers/Auth");
 const { auth } = require("../middlewares/Auth");
 const { resetPassToken, resetPassword } = require("../controllers/ResetPass");
 const router = express.Router();
