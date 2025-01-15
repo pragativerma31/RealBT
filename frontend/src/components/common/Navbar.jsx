@@ -9,12 +9,17 @@ import { matchPath } from "react-router";
 import ProfileDropDown from "../core/Auth/ProfileDropDown";
 import apiConnector from "../../services/apiConnector";
 import { API_ENDPOINTS } from "../../services/apis";
+import { handleLogout } from "../../services/operations/authAPI";
+
+
 
 const Navbar = () => {
   const { token } = useSelector((state) => state.auth);
   const { user } = useSelector((state) => state.profile);
   const [subLinks, setSubLinks] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();  // Use the navigate hook
 
 
   const location = useLocation();
@@ -36,6 +41,29 @@ const Navbar = () => {
   const matchRoute = (route) => {
     return matchPath({ path: route }, location.pathname);
   };
+
+  const handleLogout = async () => {
+    try {
+      // Send a request to the backend logout API
+      const response = await apiConnector("Post", endpoints.LOGOUT_API ,{ withCredentials: true });
+
+      // Check the response and handle accordingly
+      if (response.data.success) {
+        // Clear any session data on the client side (localStorage, sessionStorage, etc.)
+        localStorage.removeItem("user"); // Example for localStorage
+        sessionStorage.removeItem("user");
+
+        // Redirect to login page or home page
+        navigate("/login");  // Use navigate to redirect
+      } else {
+        // Handle unsuccessful logout (optional)
+        console.error(response.data.message);
+      }
+    } catch (error) {
+      // Handle error during logout
+      console.error("Error during logout:", error);
+    }
+  }
 
 
   return (
@@ -130,11 +158,9 @@ const Navbar = () => {
                 </button>
               </Link>
               <ProfileDropDown />
-              <Link to="/logout">
-                <button className="border border-richblack-700 bg-richblack-800 text-richblack-100 px-4 py-1 rounded-[4px]">
-                  Log Out
-                </button>
-              </Link>
+              <button onClick={handleLogout} className="border border-richblack-700 bg-richblack-800 text-richblack-100 px-4 py-1 rounded-[4px]">
+                Log Out
+              </button>
             </>
           )}
         </div>
