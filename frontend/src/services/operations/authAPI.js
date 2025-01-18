@@ -122,6 +122,7 @@ export function login(email, password, navigate) {
       toast.success("Login Successful")
       dispatch(setToken(response.data.token))
       localStorage.setItem("token", JSON.stringify(response.data.token))
+      localStorage.setItem("user", JSON.stringify(response.data.user))
       navigate("/dashboard/my-profile")
     } catch (error) {
       console.log("LOGIN API ERROR............", error)
@@ -190,37 +191,48 @@ export function resetPassword(password, confirmPassword, token, navigate) {
   }
 }
 
-export const handleLogout = async (dispatch, navigate) => {
-  try {
-      // Notify the backend to invalidate the token
-      const token = localStorage.getItem('token');
-      console.log(token);
-      const response = await apiConnector("POST", endpoints.LOGOUT_API, {}, {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-        withCredentials: true, // If using cookies, also ensure this is true
-      });
+// export const handleLogout = async (dispatch, navigate) => {
+//   try {
+//       // Notify the backend to invalidate the token
+//       const token = localStorage.getItem('token');
+//       console.log(token);
+//       const response = await apiConnector("POST", endpoints.LOGOUT_API, {}, {
+//         headers: {
+//             Authorization: `Bearer ${token}`,
+//         },
+//         withCredentials: true, // If using cookies, also ensure this is true
+//       });
 
 
-      if (response.data.success) {
-          // Update Redux store
-          dispatch(setToken(null));
-          dispatch(setUser(null));
+//       if (response.data.success) {
+//           // Update Redux store
+//           dispatch(setToken(null));
+//           dispatch(setUser(null));
 
-          // Clear the token and user data from localStorage
-          localStorage.removeItem('token');
-          localStorage.removeItem('user');
+//           // Clear the token and user data from localStorage
+//           localStorage.removeItem('token');
+//           localStorage.removeItem('user');
 
-          // Show a toast notification
-          toast.success('Logged out successfully');
+//           // Show a toast notification
+//           toast.success('Logged out successfully');
 
-          // Redirect to login page
-          navigate('/login');
-      } else {
-          console.error('Logout failed:', response.data.message);
-      }
-  } catch (error) {
-      console.error('Error during logout:', error);
+//           // Redirect to login page
+//           navigate('/login');
+//       } else {
+//           console.error('Logout failed:', response.data.message);
+//       }
+//   } catch (error) {
+//       console.error('Error during logout:', error);
+//   }
+// };
+
+export function logout(navigate) {
+  return (dispatch) => {
+    dispatch(setToken(null))
+    dispatch(setUser(null))
+    localStorage.removeItem("token")
+    localStorage.removeItem("user")
+    toast.success("Logged Out")
+    navigate("/")
   }
-};
+}

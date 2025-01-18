@@ -9,8 +9,10 @@ import { matchPath } from "react-router";
 import ProfileDropDown from "../core/Auth/ProfileDropDown";
 import apiConnector from "../../services/apiConnector";
 import { API_ENDPOINTS } from "../../services/apis";
-import { handleLogout } from "../../services/operations/authAPI";
-
+// import { handleLogout } from "../../services/operations/authAPI";
+import { useNavigate } from "react-router-dom";
+import { endpoints } from "../../services/apis";
+import { logout } from "../../services/operations/authAPI";
 
 
 const Navbar = () => {
@@ -28,7 +30,7 @@ const Navbar = () => {
     (async () => {
       setLoading(true);
       try {
-        const res = await apiConnector("GET",API_ENDPOINTS.GET_CATEGORIES);
+        const res = await apiConnector("GET", API_ENDPOINTS.GET_CATEGORIES);
         console.log("API Response:", res.data);
         setSubLinks(res.data.allcategory);
       } catch (error) {
@@ -42,28 +44,28 @@ const Navbar = () => {
     return matchPath({ path: route }, location.pathname);
   };
 
-  const handleLogout = async () => {
-    try {
-      // Send a request to the backend logout API
-      const response = await apiConnector("Post", endpoints.LOGOUT_API ,{ withCredentials: true });
+  // const handleLogout = async () => {
+  //   try {
+  //     // Send a request to the backend logout API
+  //     const response = await apiConnector("Post", endpoints.LOGOUT_API ,{ withCredentials: true });
 
-      // Check the response and handle accordingly
-      if (response.data.success) {
-        // Clear any session data on the client side (localStorage, sessionStorage, etc.)
-        localStorage.removeItem("user"); // Example for localStorage
-        sessionStorage.removeItem("user");
+  //     // Check the response and handle accordingly
+  //     if (response.data.success) {
+  //       // Clear any session data on the client side (localStorage, sessionStorage, etc.)
+  //       localStorage.removeItem("user"); // Example for localStorage
+  //       sessionStorage.removeItem("user");
 
-        // Redirect to login page or home page
-        navigate("/login");  // Use navigate to redirect
-      } else {
-        // Handle unsuccessful logout (optional)
-        console.error(response.data.message);
-      }
-    } catch (error) {
-      // Handle error during logout
-      console.error("Error during logout:", error);
-    }
-  }
+  //       // Redirect to login page or home page
+  //       navigate("/login");  // Use navigate to redirect
+  //     } else {
+  //       // Handle unsuccessful logout (optional)
+  //       console.error(response.data.message);
+  //     }
+  //   } catch (error) {
+  //     // Handle error during logout
+  //     console.error("Error during logout:", error);
+  //   }
+  // }
 
 
   return (
@@ -83,11 +85,10 @@ const Navbar = () => {
               >
                 {link.title === "Properties" ? (
                   <div
-                    className={`group relative flex cursor-pointer items-center gap-1 ${
-                      matchRoute("/catalog/:catalogName")
+                    className={`group relative flex cursor-pointer items-center gap-1 ${matchRoute("/catalog/:catalogName")
                         ? "text-yellow-25"
                         : "text-richblack-25"
-                    }`}
+                      }`}
                   >
                     <span className="flex items-center gap-x-1">
                       Properties <BsChevronDown />
@@ -100,16 +101,16 @@ const Navbar = () => {
                         <>
                           {subLinks
                             ?.map((category, i) => (
-                                <Link
+                              <Link
                                 to={`/properties/${category.name
-                                    .split(" ")
-                                    .join("-")
-                                    .toLowerCase()}`}
+                                  .split(" ")
+                                  .join("-")
+                                  .toLowerCase()}`}
                                 className="rounded-lg bg-transparent py-4 pl-4 hover:bg-richblack-50"
                                 key={category._id} // Use category._id as the unique key
-                                >
+                              >
                                 <p>{category.name}</p>
-                                </Link>
+                              </Link>
                             ))}
                         </>
                       ) : (
@@ -120,11 +121,10 @@ const Navbar = () => {
                 ) : (
                   <Link to={link?.path}>
                     <p
-                      className={`${
-                        matchRoute(link?.path)
+                      className={`${matchRoute(link?.path)
                           ? "text-yellow-25"
                           : "text-richblack-25"
-                      }`}
+                        }`}
                     >
                       {link.title}
                     </p>
@@ -158,7 +158,7 @@ const Navbar = () => {
                 </button>
               </Link>
               <ProfileDropDown />
-              <button onClick={handleLogout} className="border border-richblack-700 bg-richblack-800 text-richblack-100 px-4 py-1 rounded-[4px]">
+              <button onClick={logout} className="border border-richblack-700 bg-richblack-800 text-richblack-100 px-4 py-1 rounded-[4px]">
                 Log Out
               </button>
             </>
