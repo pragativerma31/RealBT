@@ -24,7 +24,7 @@ router.post("/login",LogIN);
 router.post("/signup" , signUP);
 
 // Route for user logout
-router.post("/logout" , LogOut);
+// router.post("/logout" , LogOut);
 
 // Route for sending OTP to the user's email
 router.post("/sendOTP" , sendOTP)

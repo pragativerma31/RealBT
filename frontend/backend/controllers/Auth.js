@@ -209,53 +209,53 @@ exports.LogIN = async(req,res) =>{
     }
          
 }
-exports.LogOut = async (req, res) => {
-    try {
-        // Extract the token from cookies
-        const authHeader = req.headers.authorization;
-        const token = authHeader?.startsWith("Bearer ") 
-            ? authHeader.split(" ")[1] : req.cookies?.token;
+// exports.LogOut = async (req, res) => {
+//     try {
+//         // Extract the token from cookies
+//         const authHeader = req.headers.authorization;
+//         const token = authHeader?.startsWith("Bearer ") 
+//             ? authHeader.split(" ")[1] : req.cookies?.token;
 
-        if (!token) {
-            return res.status(400).json({
-                success: false,
-                message: "No active session found. Please log in first.",
-            });
-        }
+//         if (!token) {
+//             return res.status(400).json({
+//                 success: false,
+//                 message: "No active session found. Please log in first.",
+//             });
+//         }
 
-        // Verify if the token exists in the database
-        const user = await User.findOne({ token });
+//         // Verify if the token exists in the database
+//         const user = await User.findOne({ token });
 
-        if (!user) {
-            return res.status(404).json({
-                success: false,
-                message: "User not found or already logged out.",
-            });
-        }
+//         if (!user) {
+//             return res.status(404).json({
+//                 success: false,
+//                 message: "User not found or already logged out.",
+//             });
+//         }
 
-        // Clear the token from the user's record in the database
-        await User.updateOne({ _id: user._id }, { $unset: { token: "" } });
+//         // Clear the token from the user's record in the database
+//         await User.updateOne({ _id: user._id }, { $unset: { token: "" } });
 
-        // Clear the token from cookies
-        res.clearCookie("token", {
-            httpOnly: true,  // Ensure the cookie is inaccessible via client-side JavaScript
-            secure: true,    // Ensure the cookie is only sent over HTTPS (adjust for development)
-            sameSite: "strict", // Prevent CSRF
-        });
+//         // Clear the token from cookies
+//         res.clearCookie("token", {
+//             httpOnly: true,  // Ensure the cookie is inaccessible via client-side JavaScript
+//             secure: true,    // Ensure the cookie is only sent over HTTPS (adjust for development)
+//             sameSite: "strict", // Prevent CSRF
+//         });
 
-        // Respond with success
-        return res.status(200).json({
-            success: true,
-            message: "Logged out successfully.",
-        });
-    } catch (err) {
-        console.error("Error during logout:", err);
-        return res.status(500).json({
-            success: false,
-            message: "Something went wrong during logout.",
-        });
-    }
-};
+//         // Respond with success
+//         return res.status(200).json({
+//             success: true,
+//             message: "Logged out successfully.",
+//         });
+//     } catch (err) {
+//         console.error("Error during logout:", err);
+//         return res.status(500).json({
+//             success: false,
+//             message: "Something went wrong during logout.",
+//         });
+//     }
+// };
 
 
 

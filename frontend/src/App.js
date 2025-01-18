@@ -8,6 +8,7 @@ import ForgotPass from "./pages/ForgotPass";
 import UpdatePass from "./pages/UpdatePass";
 import VerifyEmail from "./pages/VerifyEmail";
 import AboutUs from "./pages/AboutUs";
+import MyProfile from "./components/core/Auth/Dashboard/MyProfile";
 
 function App() {
   return (
@@ -21,7 +22,9 @@ function App() {
         <Route path="/update-password/:id" element = {<UpdatePass/>} />
         <Route path="/verify-email" element={<VerifyEmail/>}/>
         <Route path="/about" element={<AboutUs/>}/>
+        <Route path="/dashboard/my-profile" element={<MyProfile/>}/>
         {/* <Route path="/logout" element={<Home/>}/> */}
+
       </Routes>
 
     </div>
