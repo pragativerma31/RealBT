@@ -8,10 +8,12 @@ import ForgotPass from "./pages/ForgotPass";
 import UpdatePass from "./pages/UpdatePass";
 import VerifyEmail from "./pages/VerifyEmail";
 import AboutUs from "./pages/AboutUs";
+
 import MyProfile from "./components/core/Dashboard/MyProfile"
 import ContactUs from "./pages/ContactUs";
 import Dashboard from "./pages/Dashboard";
 import PrivateRoute from "./components/core/Auth/PrivateRoute";
+
 
 function App() {
   return (

@@ -17,9 +17,6 @@ const UserSchema = new mongoose.Schema({
         type: String, 
         required: true 
     },
-    Confirmpassword: { 
-        type: String, 
-    },
     role: { 
       type: String, 
       enum: ["Broker", "Banker", "Customer"], 

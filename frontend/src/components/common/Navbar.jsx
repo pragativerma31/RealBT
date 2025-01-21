@@ -22,7 +22,7 @@ const Navbar = () => {
     (async () => {
       setLoading(true);
       try {
-        const res = await apiConnector("GET",API_ENDPOINTS.GET_CATEGORIES);
+        const res = await apiConnector("GET", API_ENDPOINTS.GET_CATEGORIES);
         console.log("API Response:", res.data);
         setSubLinks(res.data.allcategory);
       } catch (error) {
@@ -35,7 +35,6 @@ const Navbar = () => {
   const matchRoute = (route) => {
     return matchPath({ path: route }, location.pathname);
   };
-
   return (
     <div className="flex h-12 items-center justify-center border-b-[1px] border-b-richblack-700">
       <div className="flex w-11/12 max-w-maxContent items-center justify-between">
@@ -76,11 +75,12 @@ const Navbar = () => {
                                   .split(" ")
                                   .join("-")
                                   .toLowerCase()}`}
+
                                 className="rounded-lg bg-transparent py-4 pl-4 text-richblack-100 hover:bg-richblack-700 hover:text-yellow-25 transition-all"
                                 key={category._id} // Use category._id as the unique key
-                                >
+                              >
                                 <p>{category.name}</p>
-                                </Link>
+                              </Link>
                             ))}
                           </>
                         ) : (
@@ -91,11 +91,10 @@ const Navbar = () => {
                   ) : (
                   <Link to={link?.path}>
                     <p
-                      className={`${
-                        matchRoute(link?.path)
+                      className={`${matchRoute(link?.path)
                           ? "text-yellow-25"
                           : "text-richblack-25"
-                      }`}
+                        }`}
                     >
                       {link.title}
                     </p>
