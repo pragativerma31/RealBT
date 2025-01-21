@@ -5,6 +5,8 @@ import { setUser } from "../../slices/profileSlice"
 import  apiConnector  from "../apiConnector"
 import { endpoints } from "../apis"
 
+
+
 const {
   SENDOTP_API,
   SIGNUP_API,
@@ -12,7 +14,6 @@ const {
   RESETPASSTOKEN_API,
   RESETPASSWORD_API,
 } = endpoints
-
 
 export function sendOtp(email, navigate) {
   return async (dispatch) => {
@@ -121,8 +122,11 @@ export function login(email, password, navigate) {
 
       toast.success("Login Successful")
       dispatch(setToken(response.data.token))
+      dispatch(setUser({ ...response.data.existingUser}))
+
       localStorage.setItem("token", JSON.stringify(response.data.token))
-      localStorage.setItem("user", JSON.stringify(response.data.user))
+
+      localStorage.setItem("user", JSON.stringify(response.data.existingUser))
       navigate("/dashboard/my-profile")
     } catch (error) {
       console.log("LOGIN API ERROR............", error)
@@ -191,6 +195,29 @@ export function resetPassword(password, confirmPassword, token, navigate) {
   }
 }
 
+
+export const Logout = (navigate) => {
+  return async (dispatch) => {
+    try {
+      // Update Redux store
+      dispatch(setToken(null));
+      dispatch(setUser(null));
+
+      // Clear the token and user data from localStorage
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+
+      // Show a toast notification
+      toast.success("Logged out successfully");
+
+      // Redirect to login page
+      navigate("/login");
+    } catch (error) {
+      console.error("Error during logout:", error);
+    }
+  };
+};
+
 // export const handleLogout = async (dispatch, navigate) => {
 //   try {
 //       // Notify the backend to invalidate the token
@@ -226,13 +253,4 @@ export function resetPassword(password, confirmPassword, token, navigate) {
 //   }
 // };
 
-export function logout(navigate) {
-  return (dispatch) => {
-    dispatch(setToken(null))
-    dispatch(setUser(null))
-    localStorage.removeItem("token")
-    localStorage.removeItem("user")
-    toast.success("Logged Out")
-    navigate("/")
-  }
-}
+

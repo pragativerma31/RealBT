@@ -1,103 +1,123 @@
-import React from "react";
-import HighlightText from "../components/HomePage/HighlightText";
-import BannerImage1 from "../assets/Images/aboutus1.webp";
-import BannerImage2 from "../assets/Images/aboutus2.webp";
-import BannerImage3 from "../assets/Images/aboutus3.webp";
-import Quote from "../components/core/Auth/AboutPage/Quote";
-import StatsComponent from "../components/core/Auth/AboutPage/Stats";
-import LearningGrid from "../components/core/Auth/AboutPage/LearningGrid";
-import FoundingStory from "../assets/Images/FoundingStory.png";
-import ContactFormSection from "../components/core/Auth/AboutPage/ContactFormSection";
+
+import React from "react"
+import FoundingStory from "../assets/Images/FoundingStory.png"
+import BannerImage1 from "../assets/Images/aboutus1.webp"
+import BannerImage2 from "../assets/Images/aboutus2.webp"
+import BannerImage3 from "../assets/Images/aboutus3.webp"
 import Footer from "../components/common/Footer"
-
-
+// import ReviewSlider from "../components/Common/"
+import ContactFormSection from "../components/core/AboutPage/ContactFormSection"
+import LearningGrid from "../components/core/AboutPage/LearningGrid"
+import Quote from "../components/core/AboutPage/Quote"
+import StatsComponenet from "../components/core/AboutPage/Stats"
+import HighlightText from "../components/HomePage/HighlightText"
 
 const AboutUs = () => {
-    return (
-        <div className="mx-auto mt-[100px] text-white w-11/12 max-w-maxContent">
-            {/* SECTION 1 */}
-            <section>
-                <div className="mt-[100px] text-white">
-                    <header>
-                        Driving Innovation in Real Estate for a
-                        <HighlightText text={" Better Future "}></HighlightText>
-                        <p>A unified platform that simplifies property search and loan matching, offering AI-powered loan comparisons tailored to customers' financial profiles for streamlined decision-making and better property-loan alignment.
-                        </p>
-                    </header>
-                    <div className="flex gap-x-3">
-                        <img src={BannerImage1} />
-                        <img src={BannerImage2} />
-                        <img src={BannerImage3} />
-                    </div>
-
-                </div>
-            </section>
-
-            {/* SECTION 2 */}
-            <section>
-                <div>
-                    <Quote></Quote>
-                </div>
-            </section>
-
-            {/* SECTION 3 */}
-            <section>
-                <div className="flex flex-col">
-                    {/* Founding stroy div */}
-                    <div className="flex">
-                        {/* Founding story left box */}
-                        <div>
-                            <h1>Our Founding Story</h1>
-                            <p>Every great journey begins with a vision. For us, it started with a simple question: Why does buying property and securing loans have to be so complicated?
-
-                                We recognized a persistent challenge in the real estate market. Brokers and bankers, two essential pillars of property transactions, often worked in silos, leaving customers to navigate the chaos of coordinating property deals and securing loans. The process was daunting, time-consuming, and fraught with uncertainty.
-
-                            </p>
-                            <p>Our founders, a group of experienced brokers, financial experts, and tech enthusiasts, came together with a shared goal: to bridge the gap between these two worlds. We envisioned a seamless ecosystem where brokers could list properties, bankers could offer tailored loan options, and customers could find everything they needed in one place.</p>
-                        </div>
-
-                        <div>
-                            {/* Founding story left box */}
-                            <img src={FoundingStory}></img>
-                        </div>
-                    </div>
-
-                    {/* Vision & mission div */}
-                    <div className="flex">
-                        {/* left box */}
-                        <div>
-                            <h1>Our Vision</h1>
-                            <p>Our vision is to create a world where buying a property is no longer a complicated or stressful process. We aim to seamlessly connect brokers, bankers, and buyers on a single platform, empowering everyone involved with transparency, efficiency, and trust. By leveraging technology and fostering collaboration, we envision a future where owning your dream property is simple, accessible, and hassle-free.</p>
-                        </div>
-
-                        {/* right box */}
-                        <div>
-                            <h1>Our Mission</h1>
-                            <p>Our mission is to simplify real estate transactions by uniting brokers, bankers, and buyers on one intuitive platform. We strive to provide a seamless experience where brokers can showcase properties, bankers can offer tailored financial solutions, and buyers can find and finance their dream homes with ease. Through innovation, transparency, and collaboration, we are transforming the way people buy and finance real estate.</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            {/* SECTION 4 */}
-            <StatsComponent />
-
-            {/* SECTION 5 */}
-            <section className="flex flex-col mx-auto items-center justify-between gap-5 mb-[140px]"> 
-                <LearningGrid />
-                <ContactFormSection />
-            </section>
-
-            <section>
-                <div>
-                    Reviews from customers
-                    {/* <Reviewslider /> */}
-                </div>
-            </section>
-
-            <Footer />
-
+  return (
+    <div>
+      <section className="bg-richblack-500">
+        <div className="relative mx-auto flex w-11/12 max-w-maxContent flex-col justify-between gap-10 text-center text-white">
+          <header className="mx-auto py-20 text-4xl font-semibold lg:w-[70%]">
+            Driving Innovation in Online Education for a
+            <HighlightText text={" Brighter Future"} />
+            <p className="mx-auto mt-3 text-center text-base font-medium text-richblack-300 lg:w-[95%]">
+              Studynotion is at the forefront of driving innovation in online
+              education. We're passionate about creating a brighter future by
+              offering cutting-edge courses, leveraging emerging technologies,
+              and nurturing a vibrant learning community.
+            </p>
+          </header>
+          <div className="sm:h-[70px] lg:h-[150px]"></div>
+          <div className="absolute bottom-0 left-[50%] grid w-[100%] translate-x-[-50%] translate-y-[30%] grid-cols-3 gap-3 lg:gap-5">
+            <img src={BannerImage1} alt="" />
+            <img src={BannerImage2} alt="" />
+            <img src={BannerImage3} alt="" />
+          </div>
         </div>
-    )
+      </section>
+
+      <section className="border-b border-richblack-700">
+        <div className="mx-auto flex w-11/12 max-w-maxContent flex-col justify-between gap-10 text-richblack-500">
+          <div className="h-[100px] "></div>
+          <Quote />
+        </div>
+      </section>
+
+      <section>
+        <div className="mx-auto flex w-11/12 max-w-maxContent flex-col justify-between gap-10 text-richblack-500">
+          <div className="flex flex-col items-center gap-10 lg:flex-row justify-between">
+            <div className="my-24 flex lg:w-[50%] flex-col gap-10">
+              <h1 className="bg-gradient-to-br from-[#833AB4] via-[#FD1D1D] to-[#FCB045] bg-clip-text text-4xl font-semibold text-transparent lg:w-[70%] ">
+                Our Founding Story
+              </h1>
+              <p className="text-base font-medium text-richblack-300 lg:w-[95%]">
+                Our e-learning platform was born out of a shared vision and
+                passion for transforming education. It all began with a group of
+                educators, technologists, and lifelong learners who recognized
+                the need for accessible, flexible, and high-quality learning
+                opportunities in a rapidly evolving digital world.
+              </p>
+              <p className="text-base font-medium text-richblack-300 lg:w-[95%]">
+                As experienced educators ourselves, we witnessed firsthand the
+                limitations and challenges of traditional education systems. We
+                believed that education should not be confined to the walls of a
+                classroom or restricted by geographical boundaries. We
+                envisioned a platform that could bridge these gaps and empower
+                individuals from all walks of life to unlock their full
+                potential.
+              </p>
+            </div>
+
+            <div>
+              <img
+                src={FoundingStory}
+                alt=""
+                className="shadow-[0_0_20px_0] shadow-[#FC6767]"
+              />
+            </div>
+          </div>
+          <div className="flex flex-col items-center lg:gap-10 lg:flex-row justify-between">
+            <div className="my-24 flex lg:w-[40%] flex-col gap-10">
+              <h1 className="bg-gradient-to-b from-[#FF512F] to-[#F09819] bg-clip-text text-4xl font-semibold text-transparent lg:w-[70%] ">
+                Our Vision
+              </h1>
+              <p className="text-base font-medium text-richblack-300 lg:w-[95%]">
+                With this vision in mind, we set out on a journey to create an
+                e-learning platform that would revolutionize the way people
+                learn. Our team of dedicated experts worked tirelessly to
+                develop a robust and intuitive platform that combines
+                cutting-edge technology with engaging content, fostering a
+                dynamic and interactive learning experience.
+              </p>
+            </div>
+            <div className="my-24 flex lg:w-[40%] flex-col gap-10">
+              <h1 className="bg-gradient-to-b from-[#1FA2FF] via-[#12D8FA] to-[#A6FFCB] text-transparent bg-clip-text text-4xl font-semibold lg:w-[70%] ">
+              Our Mission
+              </h1>
+              <p className="text-base font-medium text-richblack-300 lg:w-[95%]">
+              Our mission goes beyond just delivering courses online. We wanted to create a vibrant community of learners, where individuals can connect, collaborate, and learn from one another. We believe that knowledge thrives in an environment of sharing and dialogue, and we foster this spirit of collaboration through forums, live sessions, and networking opportunities.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <StatsComponenet />
+      <section className="mx-auto mt-20 flex w-11/12 max-w-maxContent flex-col justify-between gap-10 text-white">
+        <LearningGrid />
+        <ContactFormSection />
+      </section>
+
+      <div className="relative mx-auto my-20 flex w-11/12 max-w-maxContent flex-col items-center justify-between gap-8 bg-richblack-900 text-white">
+        {/* Reviws from Other Learner */}
+        <h1 className="text-center text-4xl font-semibold mt-8">
+          Reviews from other learners
+        </h1>
+        {/* <ReviewSlider /> */}
+      </div>
+      <Footer />
+    </div>
+  )
 }
-export default AboutUs;
+
+export default AboutUs

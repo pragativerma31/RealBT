@@ -23,4 +23,6 @@ export default function useOnClickOutside(ref, handler) {
       document.removeEventListener("touchstart", listener);
     };
   }, [ref, handler]); // Only run this effect when the ref or handler function changes
+
 }
+
