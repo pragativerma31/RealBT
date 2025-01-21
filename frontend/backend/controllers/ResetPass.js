@@ -2,6 +2,7 @@ const User = require('../models/User');
 const mailsender = require('../utils/MailSender');
 const { v4: uuidv4 } = require("uuid"); // For unique token generation
 const bcrypt = require('bcrypt');
+const resetPasswordTemplate = require('../templates/resetPassword')
 
 exports.resetPassToken = async(req , res) =>{
     //get email from req body
@@ -28,7 +29,7 @@ exports.resetPassToken = async(req , res) =>{
         //create url
         const resetURL = `http://localhost:3000/reset-password/${resetToken}`;
         //send mail
-        await mailsender(email , "Reset Your Password" , `Click on the link to reset your password ${resetURL}`);
+        await mailsender(email , "Reset Your Password" ,resetPasswordTemplate(resetURL) );
 
         return res.status(200).json({
             success:true,

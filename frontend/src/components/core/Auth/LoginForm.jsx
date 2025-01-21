@@ -66,9 +66,9 @@ function LoginForm() {
           className="absolute right-3 top-[26px] z-[10] cursor-pointer"
         >
           {showPassword ? (
-            <AiOutlineEyeInvisible fontSize={24} fill="#AFB2BF" />
+             <AiOutlineEye fontSize={24} fill="#AFB2BF"/>
           ) : (
-            <AiOutlineEye fontSize={24} fill="#AFB2BF" />
+            <AiOutlineEyeInvisible fontSize={24} fill="#AFB2BF"/>
           )}
         </span>
         <Link to="/forgot-password">
