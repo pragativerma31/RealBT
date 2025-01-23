@@ -13,6 +13,7 @@ import MyProfile from "./components/core/Dashboard/MyProfile"
 import ContactUs from "./pages/ContactUs";
 import Dashboard from "./pages/Dashboard";
 import PrivateRoute from "./components/core/Auth/PrivateRoute";
+import MyProperties from "./components/core/Dashboard/MyProperties";
 
 
 function App() {
@@ -62,6 +63,7 @@ function App() {
             </>
           )}
           <Route path="dashboard/settings" element={<Settings />} /> */} 
+          <Route path="dashboard/my-properties" element={<MyProperties />} />
         </Route>
       </Routes>
 
