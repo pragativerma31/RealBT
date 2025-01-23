@@ -12,6 +12,16 @@ export const endpoints = {
   LOGIN_API: BASE_URL + "/auth/login",
   RESETPASSTOKEN_API: BASE_URL + "/password/reset-password-token",
   RESETPASSWORD_API: BASE_URL + "/password/reset-password",
-  LOGOUT_API: BASE_URL + "/auth/logout"
+  LOGOUT_API: BASE_URL + "/auth/logout",
+
+
+  GET_USER_MY_PROPERTIES_API : BASE_URL + "/profile/getMyProperties",
 }
 
+// SETTINGS PAGE API
+export const settingsEndpoints = {
+  UPDATE_DISPLAY_PICTURE_API: BASE_URL + "/profile/updateDisplayPicture",
+  UPDATE_PROFILE_API: BASE_URL + "/profile/updateProfile",
+  CHANGE_PASSWORD_API: BASE_URL + "/auth/changepassword",
+  DELETE_PROFILE_API: BASE_URL + "/profile/deleteProfile",
+}
