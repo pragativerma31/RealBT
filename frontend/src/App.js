@@ -19,6 +19,7 @@ import Dashboard from "./pages/Dashboard";
 import PrivateRoute from "./components/core/Auth/PrivateRoute";
 import MyProperties from "./components/core/Dashboard/MyProperties";
 import Cart from "./components/core/Dashboard/Cart";
+import AddCourse from "./components/core/Dashboard/AddCourse";
 
 
 
@@ -47,6 +48,7 @@ function App() {
           {/* Route for all users */}
           <Route path="dashboard/my-profile" element={<MyProfile />} />
           <Route path="dashboard/Settings" element={<Settings />} />
+          <Route path="dashboard/add-course" element={<AddCourse />} />
           {/* Route only for Instructors */}
           {/* {user?.accountType === ACCOUNT_TYPE.INSTRUCTOR && (
             <>
