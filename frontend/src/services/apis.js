@@ -20,8 +20,13 @@ export const endpoints = {
 
 // SETTINGS PAGE API
 export const settingsEndpoints = {
-  UPDATE_DISPLAY_PICTURE_API: BASE_URL + "/profile/updateDisplayPicture",
+  UPDATE_DISPLAY_PICTURE_API: BASE_URL + "/profile/updateprofileImg",
   UPDATE_PROFILE_API: BASE_URL + "/profile/updateProfile",
-  CHANGE_PASSWORD_API: BASE_URL + "/auth/changepassword",
+  CHANGE_PASSWORD_API: BASE_URL + "/auth/changePassword",
   DELETE_PROFILE_API: BASE_URL + "/profile/deleteProfile",
+}
+
+export const profileEndpoints = {
+  GET_USER_DETAILS_API: BASE_URL + "/profile/user-details",
+  GET_USER_ENROLLED_COURSES_API: BASE_URL + "/profile/enrolled-courses",
 }

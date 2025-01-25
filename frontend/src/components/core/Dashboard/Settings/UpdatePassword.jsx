@@ -4,10 +4,10 @@ import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
 import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 
-import { changePassword } from "../../../../services/operations/SettingsAPI"
+import { changePassword } from "../../../../services/operations/settingAPI"
 import IconBtn from "../../../common/IconBtn"
 
-export default function UpdatePassword() {
+const UpdatePassword = () => {
   const { token } = useSelector((state) => state.auth)
   const navigate = useNavigate()
 
@@ -17,13 +17,14 @@ export default function UpdatePassword() {
   const {
     register,
     handleSubmit,
+    reset, // Import reset function
     formState: { errors },
   } = useForm()
 
   const submitPasswordForm = async (data) => {
-    // console.log("password Data - ", data)
     try {
       await changePassword(token, data)
+      reset() // Reset the form after successful submission
     } catch (error) {
       console.log("ERROR MESSAGE - ", error.message)
     }
@@ -49,12 +50,12 @@ export default function UpdatePassword() {
               />
               <span
                 onClick={() => setShowOldPassword((prev) => !prev)}
-                className="absolute right-3 top-[38px] z-[10] cursor-pointer"
+                className="absolute right-3 top-[31px] z-[10] cursor-pointer"
               >
                 {showOldPassword ? (
-                  <AiOutlineEyeInvisible fontSize={24} fill="#AFB2BF" />
-                ) : (
                   <AiOutlineEye fontSize={24} fill="#AFB2BF" />
+                ) : (
+                  <AiOutlineEyeInvisible fontSize={24} fill="#AFB2BF" />
                 )}
               </span>
               {errors.oldPassword && (
@@ -77,12 +78,12 @@ export default function UpdatePassword() {
               />
               <span
                 onClick={() => setShowNewPassword((prev) => !prev)}
-                className="absolute right-3 top-[38px] z-[10] cursor-pointer"
+                className="absolute right-3 top-[31px] z-[10] cursor-pointer"
               >
                 {showNewPassword ? (
-                  <AiOutlineEyeInvisible fontSize={24} fill="#AFB2BF" />
-                ) : (
                   <AiOutlineEye fontSize={24} fill="#AFB2BF" />
+                ) : (
+                  <AiOutlineEyeInvisible fontSize={24} fill="#AFB2BF" />
                 )}
               </span>
               {errors.newPassword && (
@@ -108,3 +109,5 @@ export default function UpdatePassword() {
     </>
   )
 }
+
+export default UpdatePassword

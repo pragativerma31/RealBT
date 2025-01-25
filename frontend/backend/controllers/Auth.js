@@ -142,136 +142,135 @@ exports.signUP = async(req,res) =>{
          
 }
 
-exports.LogIN = async(req,res) =>{
-    try{
-        //data fetch
-        const {
-            password,
-            email,
-        } =req.body;
+exports.LogIN = async (req, res) => {
+    try {
+        // Extracting email and password from request body
+        const { email, password } = req.body;
     
-        //validate data
-        if(!password || !email){
+        // Validate input fields
+        if (!email || !password) {
             return res.status(403).json({
-                success:false,
-                message:"All fields are required"
-            })
+            success: false,
+            message: "All fields are required",
+            });
         }
     
-        //check if already exists
-        const existingUser = await  User.findOne({email});
-        if(!existingUser){
+        // Check if user exists
+        const existingUser = await User.findOne({ email }).populate("AdditionalDetails");
+        if (!existingUser) {
             return res.status(401).json({
-                success: false,
-                message:"User not registered , Sign up first"
-            })
-        }
-        //generate jwt after password matching
-        if(await bcrypt.compare(password , existingUser.password)){
-            const payload ={
-                email: existingUser.email,
-                id: existingUser._id,
-                role:existingUser.role,
-            }
-            const token  = jwt.sign(payload , process.env.JWT_SECRET ,{expiresIn:'2h'});
-            existingUser.token = token;
-            console.log(token);
-            await existingUser.save();
-            existingUser.password = undefined;
-            
-
-            //create cookie
-            const options ={
-                expiresIn : new Date(Date.now() + 2 * 60 * 60 * 1000),
-                httpOnly: true,
-            }
-            res.cookie("token" ,token , options).status(200).json({
-                success:true,
-                token,
-                existingUser,
-                message:"Logged in successfully",
-            })
-
-        }
-        else{
-            return res.status(400).json({
-                success: false,
-                message:"Incorrect password"
-            })
-        }
-    }
-    catch(err){
-        return res.status(400).json({
             success: false,
-            message:"Login Failure"
-        })
+            message: "User not registered, please sign up first",
+            });
+        }
+    
+        // Verify password
+        const isPasswordMatch = await bcrypt.compare(password, existingUser.password);
+        if (!isPasswordMatch) {
+            return res.status(400).json({
+            success: false,
+            message: "Incorrect password",
+            });
+        }
+    
+        // Generate JWT token
+        const payload = {
+            email: existingUser.email,
+            id: existingUser._id,
+            role: existingUser.role,
+        };
+        const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: "2h" });
+    
+        // Save token in the user model (optional if not needed elsewhere)
+        existingUser.token = token;
+        await existingUser.save();
+    
+        // Remove sensitive data before sending response
+        existingUser.password = undefined;
 
+    
+        // Create and send cookie
+        const options = {
+            expires: new Date(Date.now() + 2 * 60 * 60 * 1000), // 2 hours
+            httpOnly: true, // Prevent access to the cookie from client-side scripts
+        };
+    
+        res
+            .cookie("token", token, options)
+            .status(200)
+            .json({
+            success: true,
+            token,
+            existingUser,
+            message: "Logged in successfully",
+            });
+    } catch (err) {
+        console.error("Error in LogIN:", err);
+        return res.status(500).json({
+            success: false,
+            message: "Login failed. Please try again later.",
+        });
     }
-         
-}
-// exports.LogOut = async (req, res) => {
-//     try {
-//         // Extract the token from cookies
-//         const authHeader = req.headers.authorization;
-//         const token = authHeader?.startsWith("Bearer ") 
-//             ? authHeader.split(" ")[1] : req.cookies?.token;
+  };
 
-//         if (!token) {
-//             return res.status(400).json({
-//                 success: false,
-//                 message: "No active session found. Please log in first.",
-//             });
-//         }
+exports.LogOut = async (req, res) => {
+    try {
+        // Extract the user ID from the request
+        const userid = req.user.id;
 
-//         // Verify if the token exists in the database
-//         const user = await User.findOne({ token });
+        // Find the user and unset the token in one operation
+        const user = await User.findOneAndUpdate(
+            { _id: userid }, // Match user by ID
+            { $unset: { token: "" } }, // Clear the token field
+            { new: true } // Return the updated document (optional)
+        );
 
-//         if (!user) {
-//             return res.status(404).json({
-//                 success: false,
-//                 message: "User not found or already logged out.",
-//             });
-//         }
+        // If no user is found
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found or already logged out.",
+            });
+        }
 
-//         // Clear the token from the user's record in the database
-//         await User.updateOne({ _id: user._id }, { $unset: { token: "" } });
+        // Clear the token from cookies
+        res.clearCookie("token", {
+            httpOnly: true,  // Ensure the cookie is inaccessible via client-side JavaScript
+            secure: true,    // Ensure the cookie is only sent over HTTPS (adjust for development)
+            sameSite: "strict", // Prevent CSRF
+        });
 
-//         // Clear the token from cookies
-//         res.clearCookie("token", {
-//             httpOnly: true,  // Ensure the cookie is inaccessible via client-side JavaScript
-//             secure: true,    // Ensure the cookie is only sent over HTTPS (adjust for development)
-//             sameSite: "strict", // Prevent CSRF
-//         });
+        // Respond with success
+        return res.status(200).json({
+            success: true,
+            message: "Logged out successfully.",
+        });
+    } catch (err) {
+        console.error("Error during logout:", err);
+        return res.status(500).json({
+            success: false,
+            message: "Something went wrong during logout.",
+        });
+    }
+};
 
-//         // Respond with success
-//         return res.status(200).json({
-//             success: true,
-//             message: "Logged out successfully.",
-//         });
-//     } catch (err) {
-//         console.error("Error during logout:", err);
-//         return res.status(500).json({
-//             success: false,
-//             message: "Something went wrong during logout.",
-//         });
-//     }
-// };
 
 
 
 exports.changePassword = async (req, res) => {
     try {
-        const { email, oldPassword, newPassword } = req.body;
+        const {oldPassword, newPassword } = req.body;
+        const userid = req.user.id
 
         // Validate request body
-        if (!email || !oldPassword || !newPassword) {
+        if (!oldPassword || !newPassword) {
             return res.status(400).json({ 
                 message: "All fields are required" 
             });
         }
 
         // Find the user by email
-        const user = await User.findOne({ email });
+        const user = await User.findOne({_id:userid});
         if (!user) {
             return res.status(404).json({ 
                 message: "User not found" 
@@ -279,6 +278,7 @@ exports.changePassword = async (req, res) => {
         }
 
         // Verify old password
+        console.log()
         const isMatch = await bcrypt.compare(oldPassword, user.password);
         if (!isMatch) {
             return res.status(400).json({ 
@@ -293,10 +293,10 @@ exports.changePassword = async (req, res) => {
         user.password = hashedPassword;
         await user.save();
 
-        await mailSender(user.email , "Password Changed Successfully")
 
         return res.status(200).json({ 
-            message: "Password changed successfully and email sent" 
+            success:true,
+            message: "Password changed successfully" 
         });
     } 
     catch (error) {

@@ -2,15 +2,24 @@ const profile = require('../models/Profile');
 const User = require('../models/User');
 const Property = require('../models/Property');
 const LoanOffer = require('../models/LoanOffers');
-const uploadImgToCloudinary = require('../utils/cloudinaryUploads');
-const isFileTypeSupported = require('../utils/cloudinaryUploads');
+const cloudinary = require('cloudinary').v2
+const {uploadImgToCloudinary ,isFileTypeSupported , getnameFromURL } = require('../utils/cloudinaryUploads');
 
 
 exports.updateProfile = async (req, res) => {
     try {
-        const userId  = req.user.id; // Assuming userId is passed as a URL parameter
-        const { gender, dateOfBirth, about, contactNumber } = req.body;
+        const userId = req.user.id; // Assuming userId is passed from the authentication middleware
+        const { firstName, lastName, gender, dateOfBirth, about, contactNumber } = req.body;
+
         console.log(userId);
+
+        // Validate required fields
+        if (!gender || !dateOfBirth || !about || !contactNumber || !firstName || !lastName) {
+            return res.status(400).json({
+                success: false,
+                message: "Missing required fields: gender, dateOfBirth, about, contactNumber, firstName, lastName.",
+            });
+        }
 
         // Step 1: Find the user
         const user = await User.findById(userId).populate("AdditionalDetails");
@@ -21,14 +30,13 @@ exports.updateProfile = async (req, res) => {
             });
         }
 
-        if (!gender || !dateOfBirth || !about || !contactNumber) {
-            return res.status(400).json({
-                success: false,
-                message: "Missing required fields: gender, dateOfBirth, about, contactNumber.",
-            });
-        }
+        // Step 2: Update firstName and lastName in the User collection
+        user.firstName = firstName;
+        user.lastName = lastName;
+        user.imageURL = `https://api.dicebear.com/5.x/initials/svg?seed=${firstName} ${lastName}`
+        await user.save(); // Save the updated user
 
-        // Step 2: Find the associated profile
+        // Step 3: Find the associated profile
         const profileId = user.AdditionalDetails;
         if (!profileId) {
             return res.status(404).json({
@@ -37,21 +45,23 @@ exports.updateProfile = async (req, res) => {
             });
         }
 
-        // Step 3: Update the profile
+        // Step 4: Update the profile in the AdditionalDetails collection
         const updatedProfile = await profile.findByIdAndUpdate(
             profileId,
             { gender, dateOfBirth, about, contactNumber },
             { new: true } // Return the updated profile
         );
 
-        // Step 4: Respond with the updated profile
+        // Step 5: Respond with the updated user and profile details
         return res.status(200).json({
             success: true,
             message: "Profile updated successfully",
-            profile: updatedProfile,
+            updatedUserDetails: {
+                ...user.toObject(),
+                AdditionalDetails: updatedProfile,
+            },
         });
-    } 
-    catch (err) {
+    } catch (err) {
         console.error(err);
         return res.status(500).json({
             success: false,
@@ -60,9 +70,10 @@ exports.updateProfile = async (req, res) => {
     }
 };
 
+
 exports.deleteUser = async (req, res) => {
     try {
-        const { userId } = req.params; // Assuming userId is passed as a URL parameter
+        const userId = req.user.id; // Assuming userId is passed as a URL parameter
 
         // Step 1: Fetch the user by ID
         const user = await User.findById(userId);
@@ -151,18 +162,20 @@ exports.getUserDetails = async (req, res) => {
 
 exports.updateProfileImg = async(req,res) =>{
     try{
-        const { email } = req.body; // Assuming userId is retrieved from auth middleware
+        const userid = req.user.id; // Assuming userId is retrieved from auth middleware
+
 
         // Check if a file is uploaded
-        if (!req.files?.file) {
+        const file = req.files.displayPicture
+        if (!file || !req.files ) {
             return res.status(400).json({
                 success: false,
                 message: "No file uploaded",
             });
         }
         // Validate file type
-        const supportedTypes = ['jpeg', 'png', 'webp'];
-        if (!isFileTypeSupported(supportedTypes, req.file.mimetype)) {
+        const supportedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+        if (!isFileTypeSupported(supportedTypes, file.mimetype)) {
             return res.status(400).json({
                 success: false,
                 message: `Unsupported file type. Supported types are: ${supportedTypes.join(', ')}`,
@@ -170,14 +183,27 @@ exports.updateProfileImg = async(req,res) =>{
         }
 
         // Find the user
-        const user = await User.findById({email:email});
+        const user = await User.findById(userid).populate('AdditionalDetails');
         if (!user) {
             return res.status(404).json({
                 success: false,
                 message: "User not found",
             });
         }
-        const result = await uploadImgToCloudinary(req.file.path , "Profile Pictures");
+
+        if (user.imageURL) {
+            // Extract public ID from the existing image URL
+            console.log(user.imageURL);
+            const extractedName = getnameFromURL(user.imageURL);
+            console.log(extractedName);
+            const publicId = `Profile Pictures/${extractedName}`;
+            
+            // Delete the old image from Cloudinary
+            await cloudinary.uploader.destroy(publicId, function(error,result) {
+                console.log(result, error) }) 
+        }
+        
+        const result = await uploadImgToCloudinary(file.tempFilePath , "Profile Pictures");
 
         user.imageURL = result.secure_url;
         await user.save();
@@ -186,7 +212,7 @@ exports.updateProfileImg = async(req,res) =>{
         return res.status(200).json({
             success: true,
             message: "Profile picture updated successfully",
-            imageURL: result.secure_url,
+            user:user, 
         });
 
     }

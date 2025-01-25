@@ -7,10 +7,10 @@ import { Provider } from "react-redux";
 import rootReducer from "./reducer";
 import { configureStore } from "@reduxjs/toolkit";
 import { Toaster } from "react-hot-toast";
-
+import { TokenExp } from "./services/operations/CheckTokenExp"; // Import AuthProvider
 
 const store = configureStore({
-  reducer:rootReducer,
+  reducer: rootReducer,
 });
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -18,7 +18,9 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
-        <App />
+        <TokenExp>
+          <App />
+        </TokenExp>
         <Toaster />
       </BrowserRouter>
     </Provider>

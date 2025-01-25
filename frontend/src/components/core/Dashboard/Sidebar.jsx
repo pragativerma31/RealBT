@@ -9,7 +9,7 @@ import ConfirmationModal from "../../common/ConfirmationModal"
 import { useState } from "react";
 
 const Sidebar = () => {
-
+    const { token } = useSelector((state) => state.auth)
     const { user, loading: profileLoading } = useSelector((state) => state.profile);
     const { loading: authLoading } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
@@ -50,7 +50,7 @@ const Sidebar = () => {
                         text2:"You will be redirected to the login page",
                         btn1Text:"Logout",
                         btn2Text:"Cancel",
-                        btn1Handler:()=>dispatch(Logout(navigate)),
+                        btn1Handler:()=>dispatch(Logout(token,navigate)),
                         btn2Handler:()=> setConfirmationModal(null),
                     })}
                     className="flex w-full items-center gap-x-1 py-[10px] px-[12px] text-sm text-richblack-100 hover:bg-richblack-700 hover:text-richblack-25">

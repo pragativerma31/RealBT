@@ -74,6 +74,23 @@ const isCustomer = (req, res, next) => {
             message: "Access Denied: Customers only" });
     }
 };
+const authenticateToken = (req, res, next) => {
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+
+    
+    if (!token) return res.status(401).json({ message: 'Unauthorized' });
+  
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      req.user = decoded;
+      next();
+    } catch (error) {
+      res.status(403).json({ message: 'Invalid token' });
+      console.log(error)
+    }
+  };
+  
   
 // Export middleware
 module.exports = {
@@ -81,5 +98,6 @@ module.exports = {
     isBroker,
     isBanker,
     isCustomer,
-    auth
+    auth,
+    authenticateToken
 };

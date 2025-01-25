@@ -1,5 +1,4 @@
 const express = require("express")
-const { auth,  } = require("../middlewares/Auth");
 const { resetPassToken, resetPassword } = require("../controllers/ResetPass");
 const router = express.Router()
 
@@ -9,10 +8,10 @@ const router = express.Router()
 // ********************************************************************************************************
 
 //create category
-router.post("/reset-password-token" , resetPassToken );//,auth ,
+router.post("/reset-password-token" , resetPassToken );
 
 //showAll categories
-router.post("/reset-password" , resetPassword); //,auth 
+router.post("/reset-password" , resetPassword); 
 
 
 module.exports = router
