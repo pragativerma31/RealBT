@@ -22,12 +22,12 @@ exports.resetPassToken = async(req , res) =>{
         const resetToken = uuidv4();
 
         //set token and expiration time in user object
-        exists.token = resetToken;
+        exists.resetToken = resetToken;
         exists.resetPassTokenExpires = Date.now() + 5*60*1000; // Token expires in 1 hour
         await exists.save();
 
         //create url
-        const resetURL = `http://localhost:3000/reset-password/${resetToken}`;
+        const resetURL = `http://localhost:3000/password/reset-password/${resetToken}`;
         //send mail
         await mailsender(email , "Reset Your Password" ,resetPasswordTemplate(resetURL) );
 
@@ -44,52 +44,47 @@ exports.resetPassToken = async(req , res) =>{
         })
     }
 }
-exports.resetPassword = async(req , res) =>{
+
+exports.resetPassword = async (req, res) => {
     try {
-        //get all the details
-        const {password , confirmpassword , token} = req.body;
+        // Get all the details
+        const { password, confirmPassword, resetToken } = req.body;
 
-        //validation
-        if(password!==confirmpassword){
+        // Validation
+        if (password !== confirmPassword) {
             return res.status(400).json({
-                success:false,
-                message:"Password doesnt match",
-            })
+                success: false,
+                message: "Passwords do not match",
+            });
         }
 
-        //get userdetails from database
-        const userdetails = User.findOne({token:token});
+        // Hash the new password
+        const hashedPassword = await bcrypt.hash(password, 10);
 
-        //if no token - invalid
-        if(!userdetails){
+        // Find the user and update password in one call
+        const user = await User.findOneAndUpdate(
+            { resetToken, resetPassTokenExpires: { $gt: Date.now() } }, // Check token and expiration
+            { password: hashedPassword, resetToken: null, resetPassTokenExpires: null }, // Update fields
+            { new: true } // Return the updated document
+        );
+
+        // If user is not found, token is invalid or expired
+        if (!user) {
             return res.status(400).json({
-                success:false,
-                message:"Token Invalid",
-            })
+                success: false,
+                message: "Token is invalid or has expired",
+            });
         }
 
-        //token time check
-        if(userdetails.resetPassTokenExpires < Date.now()){
-            return res.status(400).json({
-                success:false,
-                message:"Reset Token expired",
-            })
-        }
-        //hash new password
-        const hashpass = await bcrypt.hash(password,10);
-
-        await User.findOneAndUpdate({toekn:token} , {password:hashpass} , {new:true})
-
-        //return resposne
+        // Return response
         return res.status(200).json({
-            success:true,
-            message:"password reset successfull",
-        })
-    } 
-    catch (error) {
+            success: true,
+            message: "Password reset successful",
+        });
+    } catch (error) {
         return res.status(500).json({
-            success:false,
-            message:"Something went wrong while reseting Password",
-        })
+            success: false,
+            message: "Something went wrong while resetting the password",
+        });
     }
-}
+};

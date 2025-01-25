@@ -9,6 +9,7 @@ import { Logout } from "../../../services/operations/authAPI"
 
 export default function ProfileDropdown() {
   const { user } = useSelector((state) => state.profile)
+  const { token } = useSelector((state) => state.auth)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [confirmationModal, setConfirmationModal] = useState(null);
@@ -65,7 +66,7 @@ export default function ProfileDropdown() {
                 text2:"You will be redirected to the login page",
                 btn1Text:"Logout",
                 btn2Text:"Cancel",
-                btn1Handler:()=>dispatch(Logout(navigate)),
+                btn1Handler:()=>dispatch(Logout(token,navigate)),
                 btn2Handler:()=> setConfirmationModal(null),
             })}
             className="text-sm font-medium  w-full h-full text-richblack-300">

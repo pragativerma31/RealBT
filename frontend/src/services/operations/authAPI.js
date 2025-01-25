@@ -1,5 +1,5 @@
 import { toast } from "react-hot-toast"
-
+import {jwtDecode} from "jwt-decode";
 import { setLoading, setToken } from "../../slices/authSlice"
 import { setUser } from "../../slices/profileSlice"
 import  apiConnector  from "../apiConnector"
@@ -13,6 +13,7 @@ const {
   LOGIN_API,
   RESETPASSTOKEN_API,
   RESETPASSWORD_API,
+  LOGOUT_API,
 } = endpoints
 
 export function sendOtp(email, navigate) {
@@ -106,36 +107,54 @@ export function signUp(
 
 export function login(email, password, navigate) {
   return async (dispatch) => {
-    const toastId = toast.loading("Loading...")
-    dispatch(setLoading(true))
+    const toastId = toast.loading("Loading...");
+    dispatch(setLoading(true));
     try {
-      const response = await apiConnector("POST", LOGIN_API, {
-        email,
-        password,
-      })
+      const response = await apiConnector("POST", LOGIN_API, { email, password });
 
-      console.log("LOGIN API RESPONSE............", response)
+      console.log("LOGIN API RESPONSE:", response);
 
       if (!response.data.success) {
-        throw new Error(response.data.message)
+        throw new Error(response.data.message);
       }
 
-      toast.success("Login Successful")
-      dispatch(setToken(response.data.token))
-      dispatch(setUser({ ...response.data.existingUser}))
+      const { token, existingUser } = response.data;
 
-      localStorage.setItem("token", JSON.stringify(response.data.token))
+      // Decode the token to get the expiration time
+      const { exp } = jwtDecode(token);
+      const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
+      const timeUntilExpiration = (exp - currentTime - 2) * 1000; // Remaining time minus 2 seconds, in milliseconds
 
-      localStorage.setItem("user", JSON.stringify(response.data.existingUser))
-      navigate("/dashboard/my-profile")
+      if (timeUntilExpiration <= 0) {
+        throw new Error("Token is already expired");
+      }
+
+      // Set a timeout to remove the token 2 seconds before it expires
+      setTimeout(() => {
+        dispatch(Logout(token,navigate));
+      }, timeUntilExpiration);
+
+      // Save token and user data to localStorage
+      toast.success("Login Successful");
+      dispatch(setToken(token));
+      dispatch(setUser(existingUser));
+
+      localStorage.setItem("token", JSON.stringify(token));
+      localStorage.setItem("user", JSON.stringify(existingUser));
+
+      // Navigate to the dashboard
+      navigate("/dashboard/my-profile");
     } catch (error) {
-      console.log("LOGIN API ERROR............", error)
-      toast.error("Login Failed")
+      console.error("LOGIN ERROR:", error);
+      toast.error(error.message || "Login Failed");
+    } finally {
+      dispatch(setLoading(false));
+      toast.dismiss(toastId);
     }
-    dispatch(setLoading(false))
-    toast.dismiss(toastId)
-  }
+  };
 }
+
+
 
 export function getPasswordResetToken(email, setEmailSent) {
   return async (dispatch) => {
@@ -167,7 +186,7 @@ export function getPasswordResetToken(email, setEmailSent) {
   }
 }
 
-export function resetPassword(password, confirmPassword, token, navigate) {
+export function resetPassword(password, confirmPassword, resetToken, navigate) {
   return async (dispatch) => {
     const toastId = toast.loading("Loading...")
     dispatch(setLoading(true))
@@ -175,7 +194,7 @@ export function resetPassword(password, confirmPassword, token, navigate) {
       const response = await apiConnector("POST", RESETPASSWORD_API, {
         password,
         confirmPassword,
-        token,
+        resetToken,
       })
 
       console.log("RESETPASSWORD RESPONSE............", response)
@@ -196,7 +215,9 @@ export function resetPassword(password, confirmPassword, token, navigate) {
 }
 
 
-export const Logout = (navigate) => {
+
+
+export const AfterDeleteUser = (navigate) => {
   return async (dispatch) => {
     try {
       // Update Redux store
@@ -206,51 +227,68 @@ export const Logout = (navigate) => {
       // Clear the token and user data from localStorage
       localStorage.removeItem("token");
       localStorage.removeItem("user");
-
-      // Show a toast notification
-      toast.success("Logged out successfully");
-
-      // Redirect to login page
-      navigate("/login");
+      
+      // Redirect to signup  page
+      navigate("/signup");
     } catch (error) {
-      console.error("Error during logout:", error);
+      console.error("Error:", error);
     }
   };
 };
 
-// export const handleLogout = async (dispatch, navigate) => {
-//   try {
-//       // Notify the backend to invalidate the token
-//       const token = localStorage.getItem('token');
-//       console.log(token);
-//       const response = await apiConnector("POST", endpoints.LOGOUT_API, {}, {
-//         headers: {
-//             Authorization: `Bearer ${token}`,
-//         },
-//         withCredentials: true, // If using cookies, also ensure this is true
-//       });
+export function Logout(token, navigate) {
+  return async (dispatch) => {
+    try {
+      // Notify the backend to invalidate the token
+      const response = await apiConnector("POST", LOGOUT_API, null, {
+        Authorization: `Bearer ${token}`,
+        withCredentials: true,
+      });
 
+      if (response.data.success) {
+        // Update Redux store
+        dispatch(setToken(null));
+        dispatch(setUser(null));
 
-//       if (response.data.success) {
-//           // Update Redux store
-//           dispatch(setToken(null));
-//           dispatch(setUser(null));
+        // Clear the token and user data from localStorage
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
 
-//           // Clear the token and user data from localStorage
-//           localStorage.removeItem('token');
-//           localStorage.removeItem('user');
+        // Show a toast notification
+        toast.success("Logged out successfully");
 
-//           // Show a toast notification
-//           toast.success('Logged out successfully');
+        // Redirect to login page
+        navigate("/login");
+      } else {
+        console.error("Logout failed:", response.data.message);
+      }
+    } catch (error) {
+      console.error("Error during logout:", error);
+      toast.error("Logout failed. Please try again.");
+    }
+  };
+}
 
-//           // Redirect to login page
-//           navigate('/login');
-//       } else {
-//           console.error('Logout failed:', response.data.message);
-//       }
-//   } catch (error) {
-//       console.error('Error during logout:', error);
-//   }
-// };
+//export const Logout = (navigate) => {
+  //   return async (dispatch) => {
+  //     try {
+  //       // Update Redux store
+  //       dispatch(setToken(null));
+  //       dispatch(setUser(null));
+  
+  //       // Clear the token and user data from localStorage
+  //       localStorage.removeItem("token");
+  //       localStorage.removeItem("user");
+  
+  //       // Show a toast notification
+  //       toast.success("Logged out successfully");
+  
+  //       // Redirect to login page
+  //       navigate("/login");
+  //     } catch (error) {
+  //       console.error("Error during logout:", error);
+  //     }
+  //   };
+  // };
 
 
