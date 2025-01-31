@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 
-import {setStep,setCourse} from "../../../../slices/courseSlice";
+import {setStep,setProperty} from "../../../../slices/PropertySlice";
 import IconBtn from "../../../common/IconBtn";
 // import { fetchCourseCategories } from "../../../../services/operations/courseAPI";
 import {COURSE_STATUS} from "../../../../utils/constants"
@@ -30,31 +30,31 @@ const PropertyInfoForm = () => {
     useEffect(() => {
         const getCateories = async () => {
             setLoading(true);
-            const categories = await fetchCourseCategories();
+            const categories = await fetchPropertyCategories();
             if (categories.length > 0) {
                 setpropertyCategories(categories);
             }
             setLoading(false);
         }
         if (editProperty) {
-            setValue("title", course.title);
-            setValue("tags", course.courseTag);
-            setValue("description", course.description);
-            setValue("price", course.price);
-            setValue("category", course.category);
-            setValue("thumbnail", course.thumbnail);
+            setValue("title", property.title);
+            setValue("tags", property.courseTag);
+            setValue("description", property.description);
+            setValue("price", property.price);
+            setValue("category", property.category);
+            setValue("thumbnail", property.thumbnail);
         }
         getCateories();
     }, [])
 
     const isFormUpdated = () => {
         const currentValues = getValues();
-        if (currentValues.title !== course.title ||
-            currentValues.tags !== course.tags ||
-            currentValues.description !== course.description ||
-            currentValues.price !== course.price ||
-            currentValues.category !== course.category ||
-            currentValues.thumbnail !== course.thumbnail
+        if (currentValues.title !== property.title ||
+            currentValues.tags !== property.tags ||
+            currentValues.description !== property.description ||
+            currentValues.price !== property.price ||
+            currentValues.category !== property.category ||
+            currentValues.thumbnail !== property.thumbnail
         ) {
             return true;
         }
@@ -64,35 +64,35 @@ const PropertyInfoForm = () => {
     }
 
     const onSubmit = async (data) => {
-        if (editCourse) {
+        if (editProperty) {
             if (isFormUpdated()) {
                 const currentValues = getValues();
                 const formData = new FormData();
-                formData.append("courseID", course._id);
-                if (currentValues.title !== course.title) {
+                formData.append("courseID", property._id);
+                if (currentValues.title !== property.title) {
                     formData.append("title", data.title);
                 }
-                if (currentValues.tags !== course.tags) {
+                if (currentValues.tags !== property.tags) {
                     formData.append("tags", data.tags);
                 }
-                if (currentValues.description !== course.description) {
+                if (currentValues.description !== property.description) {
                     formData.append("description", data.description);
                 }
-                if (currentValues.price !== course.price) {
+                if (currentValues.price !== property.price) {
                     formData.append("price", data.price);
                 }
-                if (currentValues.category._id !== course.category._id) {
+                if (currentValues.category._id !== property.category._id) {
                     formData.append("category", data.category);
                 }
-                if (currentValues.thumbnail !== course.thumbnail) {
+                if (currentValues.thumbnail !== property.thumbnail) {
                     formData.append("thumbnail", data.thumbnail[0]);
                 }
                 setLoading(true);
-                const result = await editCourseDetails(formData, token);
+                const result = await editPropertyDetails(formData, token);
                 setLoading(false);
                 if (result) {
                     setStep(2);
-                    dispatch(setCourse(result));
+                    dispatch(setProperty(result));
                 }
             }
             else{
@@ -110,10 +110,10 @@ const PropertyInfoForm = () => {
         formData.append("status",COURSE_STATUS.DRAFT);
 
         setLoading(true);
-        const result = await createCourse(formData, token);
+        const result = await createProperty(formData, token);
         if(result){
             setStep(2);
-            dispatch(setCourse(result));
+            dispatch(setProperty(result));
         }
         setLoading(false);
 
@@ -156,7 +156,7 @@ const PropertyInfoForm = () => {
                 <select id="category" defaultValue="" {...register("category", { required: true })}>
                     <option value="" disabled>Select a category</option>
                     {
-                        !loading && courseCategories.map((category, index) => (
+                        !loading && propertyCategories.map((category, index) => (
                             <option key={index} value={category?._id}>{category?.name}</option>
                         ))
                     }
@@ -172,14 +172,14 @@ const PropertyInfoForm = () => {
 
             <div>
                 {
-                    editCourse && (
+                    editProperty && (
                         <button onClick={() => dispatch(setStep(2))} className="bg-richblack-700 text-white px-4 py-2 rounded-md">
                             Continue without saving
                         </button>
                     )
                 }
                 <IconBtn
-                    text={!editCourse ? "Save and continue" : "Save changes"}
+                    text={!editProperty ? "Save and continue" : "Save changes"}
                 />
             </div>
 

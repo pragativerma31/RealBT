@@ -19,7 +19,7 @@ import Dashboard from "./pages/Dashboard";
 import PrivateRoute from "./components/core/Auth/PrivateRoute";
 import MyProperties from "./components/core/Dashboard/MyProperties";
 import Cart from "./components/core/Dashboard/Cart";
-import AddCourse from "./components/core/Dashboard/AddCourse";
+import AddCourse from "./components/core/Dashboard/AddProperty";
 
 
 
