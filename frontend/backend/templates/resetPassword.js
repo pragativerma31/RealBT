@@ -1,3 +1,4 @@
+
 const resetPasswordTemplate = (resetUrl) => {
     return `<!DOCTYPE html>
     <html>
@@ -65,7 +66,7 @@ const resetPasswordTemplate = (resetUrl) => {
     
     <body>
         <div class="container">
-            <a href="https://studynotion-edtech-project.vercel.app"><img class="logo"
+            <a href="https://localhost:3000"><img class="logo"
                     src="https://i.ibb.co/7Xyj3PC/logo.png" alt="StudyNotion Logo"></a>
             <div class="message">Password Reset Request</div>
             <div class="body">
