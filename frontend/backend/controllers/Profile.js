@@ -203,7 +203,7 @@ exports.updateProfileImg = async(req,res) =>{
                 console.log(result, error) }) 
         }
         
-        const result = await uploadImgToCloudinary(file.tempFilePath , "Profile Pictures");
+        const result = await uploadImgToCloudinary(file.tempFilePath , "Profile Pictures",false);
 
         user.imageURL = result.secure_url;
         await user.save();

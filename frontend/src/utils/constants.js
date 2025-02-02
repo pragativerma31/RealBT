@@ -5,7 +5,7 @@ export const ACCOUNT_TYPE = {
     ADMIN: "Admin",
   }
   
-  export const COURSE_STATUS = {
+  export const PROPERTY_STATUS = {
     DRAFT: "Draft",
     PUBLISHED: "Published",
   }

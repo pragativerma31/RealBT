@@ -8,7 +8,7 @@ import { NavbarLinks } from "../../data/navbar-links";
 import { matchPath } from "react-router";
 import ProfileDropDown from "../core/Auth/ProfileDropDown";
 import apiConnector from "../../services/apiConnector";
-import { API_ENDPOINTS } from "../../services/apis";
+import { categoriesEndpoints } from "../../services/apis";
 import { VscBell,VscDashboard } from "react-icons/vsc";
 
 
@@ -22,7 +22,7 @@ const Navbar = () => {
     (async () => {
       setLoading(true);
       try {
-        const res = await apiConnector("GET", API_ENDPOINTS.GET_CATEGORIES);
+        const res = await apiConnector("GET", categoriesEndpoints.GET_CATEGORIES);
         console.log("API Response:", res.data);
         setSubLinks(res.data.allcategory);
       } catch (error) {
@@ -36,7 +36,7 @@ const Navbar = () => {
     return matchPath({ path: route }, location.pathname);
   };
   return (
-    <div className="flex h-12 items-center justify-center border-b-[1px] border-b-richblack-700">
+    <div className="flex h-12 items-center justify-center border-b-[1px] border-b-richblack-700 bg-richblack-800">
       <div className="flex w-11/12 max-w-maxContent items-center justify-between">
         {/* Logo */}
         <Link to="/">
@@ -48,7 +48,7 @@ const Navbar = () => {
             {NavbarLinks.map((link, index) => (
               <li
                 key={index}
-                className="cursor-pointer hover:text-richblack-50 transition-all duration-200"
+                className="cursor-pointer hover:text-richblack-100 transition-all duration-200"
               >
                 {link.title === "Properties" ? (
                     <div
@@ -62,9 +62,9 @@ const Navbar = () => {
                         Properties <BsChevronDown />
                       </span>
                       <div
-                        className="invisible absolute left-[50%] top-[50%] z-[1000] flex w-[200px] translate-x-[-50%] translate-y-[3em] flex-col rounded-lg bg-richblack-800 p-4 text-richblack-100 opacity-0 transition-all duration-150 group-hover:visible group-hover:translate-y-[1.65em] group-hover:opacity-100 lg:w-[200px]"
+                        className="invisible absolute left-[50%] top-[50%] z-[1000] flex w-[200px] translate-x-[-50%] translate-y-[3em] flex-col rounded-lg bg-richblack-700 p-4 text-richblack-100 opacity-0 transition-all duration-150 group-hover:visible group-hover:translate-y-[1.65em] group-hover:opacity-100 lg:w-[200px]"
                       >
-                        <div className="absolute left-[50%] top-0 -z-10 h-6 w-6 translate-x-[80%] translate-y-[-40%] rotate-45 select-none rounded bg-richblack-800"></div>
+                        <div className="absolute left-[50%] top-0 -z-10 h-6 w-6 translate-x-[80%] translate-y-[-40%] rotate-45 select-none rounded bg-richblack-700"></div>
                         {loading ? (
                           <p className="text-center text-richblack-100">Loading...</p>
                         ) : Array.isArray(subLinks) && subLinks.length > 0 ? (
@@ -110,12 +110,12 @@ const Navbar = () => {
           {!token ? (
             <>
               <Link to="/login">
-                <button className="border border-richblack-700 bg-richblack-800 text-richblack-100 px-4 py-1 rounded-[4px]">
+                <button className="border-b-[2px] border-richblack-600 bg-richblack-700 text-richblack-100 px-4 py-1 rounded-[4px]">
                   Log in
                 </button>
               </Link>
               <Link to="/signup">
-                <button className="border border-richblack-700 bg-richblack-800 text-richblack-100 px-4 py-1 rounded-[4px]">
+                <button className="border-b-[2px] border-richblack-600 bg-richblack-700 text-richblack-100 px-4 py-1 rounded-[4px]">
                   Sign up
                 </button>
               </Link>
@@ -123,12 +123,12 @@ const Navbar = () => {
           ) : (
             <>
               <Link to="/dashboard">
-                <button className="border-collapse bg-richblack-800 text-richblack-100 px-4 py-1 rounded-[4px]">
+                <button className="border-b-[2px] border-richblack-600 bg-richblack-700 text-richblack-100 px-4 py-1 rounded-[4px]">
                   <VscDashboard className="text-2xl"></VscDashboard>
                 </button>
               </Link>
               <Link to="/notifications">
-                <button className="border-collapse bg-richblack-800 text-richblack-100 px-4 py-1 rounded-[4px]">
+                <button className="border-b-[2px] border-richblack-600 bg-richblack-700 text-richblack-100 px-4 py-1 rounded-[4px]">
                   <VscBell className="text-2xl"></VscBell>
                 </button>
               </Link>

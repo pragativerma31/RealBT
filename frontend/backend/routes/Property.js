@@ -1,8 +1,9 @@
 const express = require("express")
-const { createProperty } = require("../controllers/Property")
-const { isBroker, isBanker } = require("../middlewares/Auth");
+const { createProperty, editProperty } = require("../controllers/Property")
+const { isBroker } = require("../middlewares/Auth");
 const router = express.Router()
-const { auth } = require("../middlewares/Auth");
+const { authenticateToken } = require("../middlewares/Auth");
+const { PropertyImgupload } = require("../controllers/Uploader");
 
 
 // ********************************************************************************************************
@@ -10,7 +11,9 @@ const { auth } = require("../middlewares/Auth");
 // ********************************************************************************************************
 
 // properties can only be created by brokers
-router.post("/createProperty" ,auth, isBroker ,createProperty);
+router.post("/createProperty" ,authenticateToken, isBroker ,createProperty);
+router.put("/editProperty",authenticateToken,isBroker,editProperty);
+router.put("/addPropertyView",authenticateToken,isBroker,PropertyImgupload)
 
 
 

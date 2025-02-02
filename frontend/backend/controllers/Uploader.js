@@ -1,31 +1,39 @@
-const uploadImgToCloudinary = require('../utils/cloudinaryUploads');
-const isFileTypeSupported = require('../utils/cloudinaryUploads');
+const {uploadFilesToCloudinary , CheckArrayOrSingleFile} = require('../utils/cloudinaryUploads');
 const File = require('../models/UploadedDocs');
+const Property = require('../models/Property');
 
 exports.PropertyImgupload = async(req,res) => {
     try{
-        const file  = req.files.imageFile ; 
-        console.log(file);
+        const imageFiles  = req.files.Images ; 
+        const videoFiles =req.files.Videos;
+        const {propertyId} =req.body;
+        console.log(propertyId)
+        console.log(videoFiles)
 
-        const supported = ["jpg" , "jpeg" , "png"];
-        const fileType = file.name.split('.')[1].toLowerCase();
 
-        const isSupported  = isFileTypeSupported(supported , fileType);
+        const supportedImages = ["image/jpg" , "image/jpeg" , "image/png"];
+        const supportedVideos =["video/mp4"];
 
-        if(!isSupported){
-            res.status(500).json({
+        if(!CheckArrayOrSingleFile(imageFiles,supportedImages)){
+            res.status(400).json({
                 success:false,
-                message:"File type not supported"
+                message:"File type for images not supported"
             })
         }
 
-        const response = await uploadImgToCloudinary(file , "Files");
-        console.log(response);
+        if(!CheckArrayOrSingleFile(videoFiles,supportedVideos)){
+            res.status(400).json({
+                success:false,
+                message:"File type for videos not supported"
+            })
+        }
 
-        const imageUrl = response.secure_url;
+        const uploadedImageUrls = await uploadFilesToCloudinary(imageFiles, "RealBT/Properties/Images" , false);
+        const uploadedVideoUrls = await uploadFilesToCloudinary(videoFiles, "RealBT/Properties/Videos" ,true);
+
+
 
         // Step 3: Find and update the property in the database
-        const { propertyId } = req.body; // Ensure propertyId is sent in the request body
         const property = await Property.findById(propertyId);
 
         if (!property) {
@@ -36,15 +44,18 @@ exports.PropertyImgupload = async(req,res) => {
         }
 
         // Add the image URL to the images array
-        property.images.push(imageUrl);
+        property.Images = [...property.Images, ...uploadedImageUrls];
+        property.Videos = [...property.Videos, ...uploadedVideoUrls];
+
+        await property.save();
 
         // Save the updated document
         await property.save();
 
         res.status(200).json({
             success:true,
-            imageUrl,
-            message:"Image uploaded successfully"
+            property,
+            message:" Media uploaded successfully"
         })
     }
     catch(err){

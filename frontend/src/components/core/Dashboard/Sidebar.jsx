@@ -31,7 +31,7 @@ const Sidebar = () => {
                 <div className="flex flex-col gap-5">
                     {
                         sidebarLinks.map((link, index) => {
-                            if (link.type && user?.accountType !== link.type) return null;
+                            if (link.type && user?.role !== link.type) return null;
                             return (
                                 <SidebarLink key={link.id} link={link} iconName={link.icon} />
                             )
