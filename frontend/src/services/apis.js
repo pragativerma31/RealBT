@@ -1,10 +1,5 @@
-// src/services/apis.js
 
 const BASE_URL = "http://localhost:4000/api/v1"; // Replace with your backend URL
-
-export const API_ENDPOINTS = {
-  GET_CATEGORIES: BASE_URL + "/categories/getAllCategories",     // Example GET endpoint
-};
 
 export const endpoints = {
   SENDOTP_API: BASE_URL + "/auth/sendotp",
@@ -29,4 +24,14 @@ export const settingsEndpoints = {
 export const profileEndpoints = {
   GET_USER_DETAILS_API: BASE_URL + "/profile/user-details",
   GET_USER_ENROLLED_COURSES_API: BASE_URL + "/profile/enrolled-courses",
+}
+
+export const categoriesEndpoints = {
+  GET_CATEGORIES: BASE_URL + "/categories/getAllCategories",     
+};
+
+export const propertyEndpoints = {
+  CREATE_PROPERTY_API : BASE_URL + "/properties/createProperty",
+  EDIT_PROPERTY_API: BASE_URL + "/properties/editProperty",
+  ADD_PROPERTY_VIEW_API: BASE_URL + "/properties/addPropertyView"
 }

@@ -22,9 +22,9 @@ export const sidebarLinks = [
   },
   {
     id: 4,
-    name: "Add Course",
-    path: "/dashboard/add-course",
-    type: ACCOUNT_TYPE.INSTRUCTOR,
+    name: "Add Property",
+    path: "/dashboard/add-property",
+    type: ACCOUNT_TYPE.BROKER,
     icon: "VscAdd",
   },
   {

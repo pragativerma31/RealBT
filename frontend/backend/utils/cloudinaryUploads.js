@@ -1,15 +1,48 @@
 const cloudinary = require('cloudinary').v2;
 
-async  function uploadImgToCloudinary(file , folder , quality){
+async  function uploadImgToCloudinary(file , folder  , isvideo , quality){
     const options = {folder}
     if(quality){
         options.quality = quality ;
     }
+    if(isvideo){
+        options.resource_type = "video";
+    }
     return await cloudinary.uploader.upload(file,options);
 }
 
-function isFileTypeSupported(supported , fileType){
-    return supported.includes(fileType);
+const uploadFilesToCloudinary = async (files, folder,isvideo, quality = 80) => {
+    let uploadedFiles = [];
+    if (Array.isArray(files)) {
+        for (let file of files) {
+            const response = await uploadImgToCloudinary(file.tempFilePath, folder,isvideo, quality);
+            uploadedFiles.push(response.secure_url); // Cloudinary returns secure_url
+        }
+    } else {
+        const response = await uploadImgToCloudinary(files.tempFilePath, folder, isvideo ,quality);
+        uploadedFiles.push(response.secure_url);
+    }
+    return uploadedFiles;
+};
+
+function isFileTypeSupported(supported , file){
+    return supported.includes(file.mimetype);
+}
+
+function CheckArrayOrSingleFile(files , supportedTypes){
+    if (Array.isArray(files)) {
+        files.forEach(file => {
+            if (!isFileTypeSupported(supportedTypes,file )) {
+                return false;
+            }
+        });
+    } 
+    else if (files) {
+        if (!isFileTypeSupported(supportedTypes, files)) {
+            return false;
+        }
+    }
+    return true
 }
 
 
@@ -25,6 +58,8 @@ function getnameFromURL(url) {
 
 module.exports = {
     uploadImgToCloudinary,
+    uploadFilesToCloudinary,
     isFileTypeSupported,
     getnameFromURL,
+    CheckArrayOrSingleFile
 };

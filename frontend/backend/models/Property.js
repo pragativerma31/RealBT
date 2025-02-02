@@ -21,7 +21,10 @@ const PropertySchema = new mongoose.Schema({
     description: { 
         type: String 
     },
-    images: [{ 
+    Images: [{ 
+        type: String 
+    }],
+    Videos: [{ 
         type: String 
     }],
     postedAt: { 
@@ -50,7 +53,10 @@ const PropertySchema = new mongoose.Schema({
     },
     tags:[{
         type:String,
-    }]
+    }],
+    thumbnailImage:{
+        type:String,
+    }
 });
   
   module.exports = mongoose.model("Property", PropertySchema);
