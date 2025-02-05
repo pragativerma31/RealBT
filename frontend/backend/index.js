@@ -7,6 +7,8 @@ const propertyRoutes = require('./routes/Property');
 const loanofferRoutes = require('./routes/loanoffer');
 const categoryRoutes = require('./routes/category');
 const resetpassRoutes = require('./routes/resetPass');
+const LoanApplicationRoutes = require('./routes/loanApplication');
+const LoanTypesRoutes = require('./routes/loanTypes');
 
 
 const database = require('./config/databse');
@@ -15,7 +17,6 @@ const cors = require('cors');
 const {Cloudinary_Connect} = require('./config/cloudinary');
 const dotenv = require('dotenv');
 const fileUpload = require('express-fileupload');
-const { application } = require('express');
 
 dotenv.config()
 const PORT = process.env.PORT
@@ -46,6 +47,8 @@ app.use("/api/v1/properties" ,propertyRoutes);
 app.use("/api/v1/categories" ,categoryRoutes );
 app.use("/api/v1/loanOffers" ,loanofferRoutes);
 app.use("/api/v1/password" , resetpassRoutes);
+app.use("/api/v1/loanApplications" , LoanApplicationRoutes);
+app.use("/api/v1/loanTypes" , LoanTypesRoutes);
 
 app.get("/" , (req,res) => {
     return res.json({

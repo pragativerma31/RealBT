@@ -1,7 +1,6 @@
 import "./App.css";
 import { Route , Routes } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { ACCOUNT_TYPE } from "./utils/constants";
 
 
 import Home from "./pages/Home";
@@ -17,9 +16,10 @@ import MyProfile from "./components/core/Dashboard/MyProfile"
 import ContactUs from "./pages/ContactUs";
 import Dashboard from "./pages/Dashboard";
 import PrivateRoute from "./components/core/Auth/PrivateRoute";
-import MyProperties from "./components/core/Dashboard/MyProperties";
+import MyProperties from "./components/core/Dashboard/BrokerProperties/MyProperties";
 import Cart from "./components/core/Dashboard/Cart";
-import AddProperty from "./components/core/Dashboard/AddProperty";
+import AddProperty from "./components/core/Dashboard/AddProperty/index";
+import AddLoanApplication from "./components/core/Dashboard/AddLoanApplication";
 
 
 
@@ -43,35 +43,14 @@ function App() {
             <PrivateRoute>
               <Dashboard />
             </PrivateRoute>
-          }
-        >
+          }>
           {/* Route for all users */}
           <Route path="dashboard/my-profile" element={<MyProfile />} />
           <Route path="dashboard/Settings" element={<Settings />} />
           <Route path="dashboard/add-property" element={<AddProperty />} />
-          {/* Route only for Instructors */}
-          {/* {user?.accountType === ACCOUNT_TYPE.INSTRUCTOR && (
-            <>
-              <Route path="dashboard/instructor" element={<Instructor />} />
-              <Route path="dashboard/my-courses" element={<MyCourses />} />
-              <Route path="dashboard/add-course" element={<AddCourse />} />
-              <Route
-                path="dashboard/edit-course/:courseId"
-                element={<EditCourse />}
-              />
-            </>
-          )}
-          {/* Route only for Students */}
-          {user?.role === ACCOUNT_TYPE.CUSTOMER && (
-            <>
-              {/* <Route
-                path="dashboard/enrolled-courses"
-                element={<EnrolledCourses />}
-              /> */}
-              <Route path="/dashboard/cart" element={<Cart />} />
-            </>
-          )}
           <Route path="/dashboard/my-properties" element={<MyProperties />} />
+          <Route path="/dashboard/add-loan-application" element={<AddLoanApplication/>} />
+          {/* <Route path="/dashboard/my-loan-applications" element={<My />} /> */}
         </Route>
       </Routes>
 

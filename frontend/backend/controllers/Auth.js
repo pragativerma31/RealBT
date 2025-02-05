@@ -28,7 +28,6 @@ exports.sendOTP = async(req, res) => {
             lowerCaseAlphabets:false,
             specialChars:false,
         });
-        console.log("Otp generated Successfully");
 
         //check if otp unique or not
         const result = await OTP.findOne({otp:otp});
@@ -66,7 +65,7 @@ exports.sendOTP = async(req, res) => {
 exports.signUP = async(req,res) =>{
     try{
         //data fetch
-        console.log("Request Body:", req.body); 
+
         const {
             firstName,
             lastName,
@@ -81,8 +80,6 @@ exports.signUP = async(req,res) =>{
         const mostRecentOTP = await OTP.findOne({ email }) // Filter by email if needed
         .sort({ createdAt: -1 }) // Sort by 'createdAt' in descending order
         .limit(1); // Ensure it fetches only one document
-
-        console.log(mostRecentOTP)
 
         //validate otp
         if(!mostRecentOTP){
@@ -277,8 +274,6 @@ exports.changePassword = async (req, res) => {
             });
         }
 
-        // Verify old password
-        console.log()
         const isMatch = await bcrypt.compare(oldPassword, user.password);
         if (!isMatch) {
             return res.status(400).json({ 

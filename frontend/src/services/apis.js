@@ -30,8 +30,19 @@ export const categoriesEndpoints = {
   GET_CATEGORIES: BASE_URL + "/categories/getAllCategories",     
 };
 
+export const loanTypesEndpoints = {
+  GET_LOAN_TYPES_API: BASE_URL + "/loanTypes/getAllLoanTypes",     
+};
+
 export const propertyEndpoints = {
   CREATE_PROPERTY_API : BASE_URL + "/properties/createProperty",
   EDIT_PROPERTY_API: BASE_URL + "/properties/editProperty",
-  ADD_PROPERTY_VIEW_API: BASE_URL + "/properties/addPropertyView"
+  ADD_PROPERTY_VIEW_API: BASE_URL + "/properties/addPropertyView",
+  FETCH_BROKERS_PROPERTY_API: BASE_URL +"/properties/fetch-properties",
+  DELETE_PROPERTY_API : BASE_URL + "/properties/delete-property/:propertyId"
+}
+
+export const loanApplicationEndpoints = {
+  CREATE_LOAN_APPLICATION_API : BASE_URL + "/loanApplications/createLoanApplication",
+  EDIT_LOAN_APPLICATION_API: BASE_URL + "/loanApplications/editLoanApplication",
 }

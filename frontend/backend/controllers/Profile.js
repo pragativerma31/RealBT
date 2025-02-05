@@ -11,7 +11,6 @@ exports.updateProfile = async (req, res) => {
         const userId = req.user.id; // Assuming userId is passed from the authentication middleware
         const { firstName, lastName, gender, dateOfBirth, about, contactNumber } = req.body;
 
-        console.log(userId);
 
         // Validate required fields
         if (!gender || !dateOfBirth || !about || !contactNumber || !firstName || !lastName) {
@@ -193,9 +192,7 @@ exports.updateProfileImg = async(req,res) =>{
 
         if (user.imageURL) {
             // Extract public ID from the existing image URL
-            console.log(user.imageURL);
             const extractedName = getnameFromURL(user.imageURL);
-            console.log(extractedName);
             const publicId = `Profile Pictures/${extractedName}`;
             
             // Delete the old image from Cloudinary

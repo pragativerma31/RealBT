@@ -9,4 +9,9 @@ export const ACCOUNT_TYPE = {
     DRAFT: "Draft",
     PUBLISHED: "Published",
   }
+
+  export const APPLICATION_STATUS = {
+    DRAFT: "Draft",
+    PUBLISHED: "Published",
+  }
   

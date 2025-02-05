@@ -5,8 +5,6 @@ import { setUser } from "../../slices/profileSlice"
 import  apiConnector  from "../apiConnector"
 import { endpoints } from "../apis"
 
-
-
 const {
   SENDOTP_API,
   SIGNUP_API,
@@ -155,7 +153,6 @@ export function login(email, password, navigate) {
 }
 
 
-
 export function getPasswordResetToken(email, setEmailSent) {
   return async (dispatch) => {
     const toastId = toast.loading("Loading...")
@@ -269,26 +266,6 @@ export function Logout(token, navigate) {
   };
 }
 
-//export const Logout = (navigate) => {
-  //   return async (dispatch) => {
-  //     try {
-  //       // Update Redux store
-  //       dispatch(setToken(null));
-  //       dispatch(setUser(null));
-  
-  //       // Clear the token and user data from localStorage
-  //       localStorage.removeItem("token");
-  //       localStorage.removeItem("user");
-  
-  //       // Show a toast notification
-  //       toast.success("Logged out successfully");
-  
-  //       // Redirect to login page
-  //       navigate("/login");
-  //     } catch (error) {
-  //       console.error("Error during logout:", error);
-  //     }
-  //   };
-  // };
+
 
 

@@ -1,54 +1,53 @@
-import { useDispatch, useSelector } from "react-redux"
-import { Table, Tbody, Td, Th, Thead, Tr } from "react-super-responsive-table"
+import { useSelector} from "react-redux";
+import { Table, Tbody, Td, Th, Thead, Tr } from "react-super-responsive-table";
+import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
+import { useState } from "react";
+import { FaCheck } from "react-icons/fa";
+import { FiEdit2 } from "react-icons/fi";
+import { HiClock } from "react-icons/hi";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
 
-import { setCourse, setEditCourse } from "../../../../slices/courseSlice"
-import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css"
-import { useState } from "react"
-import { FaCheck } from "react-icons/fa"
-import { FiEdit2 } from "react-icons/fi"
-import { HiClock } from "react-icons/hi"
-import { RiDeleteBin6Line } from "react-icons/ri"
-import { useNavigate } from "react-router-dom"
+import { formatDate } from "../../../../services/formatDate";
+import { deleteProperty } from "../../../../services/operations/propertyAPI";
+import { PROPERTY_STATUS } from "../../../../utils/constants";
+import ConfirmationModal from "../../../common/ConfirmationModal";
 
-import { formatDate } from "../../../../services/formatDate"
-import {
-  deleteCourse,
-  fetchInstructorCourses,
-} from "../../../../services/operations/courseDetailsAPI"
-import { COURSE_STATUS } from "../../../../utils/constants"
-import ConfirmationModal from "../../../Common/ConfirmationModal"
+export default function PropertiesTable({properties}) {
+  const navigate = useNavigate();
+  const { token } = useSelector((state) => state.auth);
+  const [loading, setLoading] = useState(false);
+  const [confirmationModal, setConfirmationModal] = useState(null);
+  const TRUNCATE_LENGTH = 30;
 
-export default function CoursesTable({ courses, setCourses }) {
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
-  const { token } = useSelector((state) => state.auth)
-  const [loading, setLoading] = useState(false)
-  const [confirmationModal, setConfirmationModal] = useState(null)
-  const TRUNCATE_LENGTH = 30
+  // Delete property handler
+  const handlePropertyDelete = async (propertyId) => {
+    setLoading(true);
+    await deleteProperty({ _id: propertyId }, token);
 
-  const handleCourseDelete = async (courseId) => {
-    setLoading(true)
-    await deleteCourse({ courseId: courseId }, token)
-    const result = await fetchInstructorCourses(token)
-    if (result) {
-      setCourses(result)
+    setConfirmationModal(null);
+    setLoading(false);
+  };
+
+  // Navigate to single property details page
+  const handleSingleProperty = (propertyId) => {
+    if (!propertyId) {
+      alert("Error: Property ID is missing!"); // Prevent silent failure
+      return;
     }
-    setConfirmationModal(null)
-    setLoading(false)
-  }
-
-  // console.log("All Course ", courses)
+    navigate(`/properties/property/${propertyId}`);
+  };
 
   return (
     <>
-      <Table className="rounded-xl border border-richblack-800 ">
+      <Table className="rounded-xl border border-richblack-800">
         <Thead>
           <Tr className="flex gap-x-10 rounded-t-md border-b border-b-richblack-800 px-6 py-2">
             <Th className="flex-1 text-left text-sm font-medium uppercase text-richblack-100">
-              Courses
+              Property
             </Th>
             <Th className="text-left text-sm font-medium uppercase text-richblack-100">
-              Duration
+              Location
             </Th>
             <Th className="text-left text-sm font-medium uppercase text-richblack-100">
               Price
@@ -59,42 +58,38 @@ export default function CoursesTable({ courses, setCourses }) {
           </Tr>
         </Thead>
         <Tbody>
-          {courses?.length === 0 ? (
+          {properties?.length === 0 ? (
             <Tr>
               <Td className="py-10 text-center text-2xl font-medium text-richblack-100">
-                No courses found
-                {/* TODO: Need to change this state */}
+                No Property found
               </Td>
             </Tr>
           ) : (
-            courses?.map((course) => (
+            properties?.map((property) => (
               <Tr
-                key={course._id}
+                key={property._id}
                 className="flex gap-x-10 border-b border-richblack-800 px-6 py-8"
+                onClick={() => handleSingleProperty(property._id)}
               >
                 <Td className="flex flex-1 gap-x-4">
                   <img
-                    src={course?.thumbnail}
-                    alt={course?.courseName}
+                    src={property?.thumbnailImage}
+                    alt={property?.title}
                     className="h-[148px] w-[220px] rounded-lg object-cover"
                   />
                   <div className="flex flex-col justify-between">
                     <p className="text-lg font-semibold text-richblack-5">
-                      {course.courseName}
+                      {property.title}
                     </p>
                     <p className="text-xs text-richblack-300">
-                      {course.courseDescription.split(" ").length >
-                      TRUNCATE_LENGTH
-                        ? course.courseDescription
-                            .split(" ")
-                            .slice(0, TRUNCATE_LENGTH)
-                            .join(" ") + "..."
-                        : course.courseDescription}
+                      {property.description.split(" ").length > TRUNCATE_LENGTH
+                        ? property.description.split(" ").slice(0, TRUNCATE_LENGTH).join(" ") + "..."
+                        : property.description}
                     </p>
                     <p className="text-[12px] text-white">
-                      Created: {formatDate(course.createdAt)}
+                      Created: {formatDate(property.postedAt)}
                     </p>
-                    {course.status === COURSE_STATUS.DRAFT ? (
+                    {property.status === PROPERTY_STATUS.DRAFT ? (
                       <p className="flex w-fit flex-row items-center gap-2 rounded-full bg-richblack-700 px-2 py-[2px] text-[12px] font-medium text-pink-100">
                         <HiClock size={14} />
                         Drafted
@@ -110,38 +105,38 @@ export default function CoursesTable({ courses, setCourses }) {
                   </div>
                 </Td>
                 <Td className="text-sm font-medium text-richblack-100">
-                  2hr 30min
+                  {property.location}
                 </Td>
                 <Td className="text-sm font-medium text-richblack-100">
-                  ₹{course.price}
+                  ₹{property.price}
                 </Td>
-                <Td className="text-sm font-medium text-richblack-100 ">
+                <Td className="text-sm font-medium text-richblack-100">
+                  {/* Edit Button */}
                   <button
                     disabled={loading}
-                    onClick={() => {
-                      navigate(`/dashboard/edit-course/${course._id}`)
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevent accidental row click
+                      navigate(`/dashboard/edit-property/${property._id}`);
                     }}
                     title="Edit"
                     className="px-2 transition-all duration-200 hover:scale-110 hover:text-caribbeangreen-300"
                   >
                     <FiEdit2 size={20} />
                   </button>
+
+                  {/* Delete Button */}
                   <button
                     disabled={loading}
-                    onClick={() => {
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevent accidental row click
                       setConfirmationModal({
-                        text1: "Do you want to delete this course?",
-                        text2:
-                          "All the data related to this course will be deleted",
-                        btn1Text: !loading ? "Delete" : "Loading...  ",
+                        text1: "Do you want to delete this property?",
+                        text2: "All data related to this property will be deleted.",
+                        btn1Text: loading ? "Loading..." : "Delete",
                         btn2Text: "Cancel",
-                        btn1Handler: !loading
-                          ? () => handleCourseDelete(course._id)
-                          : () => {},
-                        btn2Handler: !loading
-                          ? () => setConfirmationModal(null)
-                          : () => {},
-                      })
+                        btn1Handler: loading ? () => {} : () => handlePropertyDelete(property._id),
+                        btn2Handler: loading ? () => {} : () => setConfirmationModal(null),
+                      });
                     }}
                     title="Delete"
                     className="px-1 transition-all duration-200 hover:scale-110 hover:text-[#ff0000]"
@@ -154,7 +149,9 @@ export default function CoursesTable({ courses, setCourses }) {
           )}
         </Tbody>
       </Table>
+
+      {/* Confirmation Modal */}
       {confirmationModal && <ConfirmationModal modalData={confirmationModal} />}
     </>
-  )
+  );
 }
