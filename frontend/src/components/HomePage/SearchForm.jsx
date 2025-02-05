@@ -18,8 +18,6 @@ const SearchForm = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log("Form data submitted:", formData);
-        // Replace the console.log with your backend API call
-        // Example: axios.post('/api/properties/search', formData)
     };
 
     return (
