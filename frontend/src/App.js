@@ -20,6 +20,7 @@ import MyProperties from "./components/core/Dashboard/BrokerProperties/MyPropert
 import Cart from "./components/core/Dashboard/Cart";
 import AddProperty from "./components/core/Dashboard/AddProperty/index";
 import AddLoanApplication from "./components/core/Dashboard/AddLoanApplication";
+import MyLoanApplication from "./components/core/Dashboard/CustomerApplication/MyLoanApplication";
 
 
 
@@ -50,7 +51,7 @@ function App() {
           <Route path="dashboard/add-property" element={<AddProperty />} />
           <Route path="/dashboard/my-properties" element={<MyProperties />} />
           <Route path="/dashboard/add-loan-application" element={<AddLoanApplication/>} />
-          {/* <Route path="/dashboard/my-loan-applications" element={<My />} /> */}
+          <Route path="/dashboard/my-loan-applications" element={<MyLoanApplication />} />
         </Route>
       </Routes>
 
