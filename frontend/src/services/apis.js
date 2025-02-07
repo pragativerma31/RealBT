@@ -39,12 +39,14 @@ export const propertyEndpoints = {
   EDIT_PROPERTY_API: BASE_URL + "/properties/editProperty",
   ADD_PROPERTY_VIEW_API: BASE_URL + "/properties/addPropertyView",
   FETCH_BROKERS_PROPERTY_API: BASE_URL +"/properties/fetch-properties",
-  DELETE_PROPERTY_API : BASE_URL + "/properties/delete-property/:propertyId"
+  DELETE_PROPERTY_API : BASE_URL + "/properties/delete-property/:propertyId",
+  GET_ALL_PROPERTIES_API : BASE_URL + "/properties/getAllproperties"
 }
 
 export const loanApplicationEndpoints = {
   CREATE_LOAN_APPLICATION_API : BASE_URL + "/loanApplications/createLoanApplication",
   EDIT_LOAN_APPLICATION_API: BASE_URL + "/loanApplications/editLoanApplication",
   DELETE_LOAN_APPLICATION_API: BASE_URL + "/loanApplications/deleteLoanApplication",
-  FETCH_CUSTOMER_APPLICATION_API:BASE_URL+"/loanApplications/getAllApplications"
+  FETCH_CUSTOMER_APPLICATION_API:BASE_URL+"/loanApplications/getCustomersApplications",
+  GET_ALL_LOAN_APPLICATIONS_API : BASE_URL + "/loanApplications/getAllApplications"
 }

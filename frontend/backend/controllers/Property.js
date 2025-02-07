@@ -143,6 +143,33 @@ exports.deleteProperty = async (req, res) => {
     }
 };
 
+// Get all properties
+exports.getAllProperties = async (req, res) => {
+  try {
+    // Fetch all properties from the database
+    const AllProperties = await Property.find().populate("category" , "name");
+
+    // Check if properties exist
+    if (!AllProperties.length) {
+      return res.status(404).json({ 
+        success:false,
+        message: "No properties found" });
+    }
+
+    // Return the properties with a success response
+    return res.status(200).json({
+      success: true,
+      AllProperties
+    });
+  } catch (error) {
+    console.error("Error fetching properties:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Server error, please try again later",
+    });
+  }
+};
+
 
 exports.fetchBrokersProperty = async (req, res) => {
     try {
