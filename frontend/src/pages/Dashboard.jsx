@@ -17,7 +17,7 @@ function Dashboard() {
   }
 
   return (
-    <div className="relative flex h-full ">
+    <div className="relative flex min-h-screen ">
       <Sidebar />
       <div className="h-full flex-1 ">
         <div className="mx-auto w-11/12 max-w-[1000px] py-10">

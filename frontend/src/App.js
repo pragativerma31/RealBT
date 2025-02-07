@@ -17,10 +17,11 @@ import ContactUs from "./pages/ContactUs";
 import Dashboard from "./pages/Dashboard";
 import PrivateRoute from "./components/core/Auth/PrivateRoute";
 import MyProperties from "./components/core/Dashboard/BrokerProperties/MyProperties";
-import Cart from "./components/core/Dashboard/Cart";
 import AddProperty from "./components/core/Dashboard/AddProperty/index";
 import AddLoanApplication from "./components/core/Dashboard/AddLoanApplication";
 import MyLoanApplication from "./components/core/Dashboard/CustomerApplication/MyLoanApplication";
+import PropertyCatalog from "./pages/PropertyCatalog";
+import LoanApplicationCatalog from "./pages/ApplicationCatalog";
 
 
 
@@ -53,6 +54,8 @@ function App() {
           <Route path="/dashboard/add-loan-application" element={<AddLoanApplication/>} />
           <Route path="/dashboard/my-loan-applications" element={<MyLoanApplication />} />
         </Route>
+        <Route path="/properties" element={<PropertyCatalog/>}/>
+        <Route path="/loanApplications" element={<LoanApplicationCatalog/>}/>
       </Routes>
 
     </div>
