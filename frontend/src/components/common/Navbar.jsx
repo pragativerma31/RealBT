@@ -9,7 +9,7 @@ import { matchPath } from "react-router";
 import ProfileDropDown from "../core/Auth/ProfileDropDown";
 import apiConnector from "../../services/apiConnector";
 import { categoriesEndpoints } from "../../services/apis";
-import { VscBell,VscDashboard } from "react-icons/vsc";
+import { VscBell} from "react-icons/vsc";
 
 
 const Navbar = () => {
@@ -110,26 +110,21 @@ const Navbar = () => {
           {!token ? (
             <>
               <Link to="/login">
-                <button className="border-b-[2px] border-richblack-600 bg-richblack-700 text-richblack-100 px-4 py-1 rounded-[4px]">
+                <button className="border-b-[2px]  border-yellow-500 bg-yellow-50 text-richblack-900 px-4 py-1 rounded-[4px]">
                   Log in
                 </button>
               </Link>
               <Link to="/signup">
-                <button className="border-b-[2px] border-richblack-600 bg-richblack-700 text-richblack-100 px-4 py-1 rounded-[4px]">
+                <button className="border-b-[2px]  border-yellow-500 bg-yellow-50 text-richblack-900 px-4 py-1 rounded-[4px]">
                   Sign up
                 </button>
               </Link>
             </>
           ) : (
             <>
-              <Link to="/dashboard">
-                <button className="border-b-[2px] border-richblack-600 bg-richblack-700 text-richblack-100 px-4 py-1 rounded-[4px]">
-                  <VscDashboard className="text-2xl"></VscDashboard>
-                </button>
-              </Link>
-              <Link to="/notifications">
-                <button className="border-b-[2px] border-richblack-600 bg-richblack-700 text-richblack-100 px-4 py-1 rounded-[4px]">
-                  <VscBell className="text-2xl"></VscBell>
+              <Link to="/dashboard/notifications">
+                <button className="border-b-[2px] border-yellow-500 bg-yellow-50 text-richblack-100 px-4 py-1 rounded-[4px]">
+                  <VscBell  className="text-xl text-richblack-900"></VscBell>
                 </button>
               </Link>
               <ProfileDropDown />

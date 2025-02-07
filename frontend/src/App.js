@@ -46,9 +46,9 @@ function App() {
             </PrivateRoute>
           }>
           {/* Route for all users */}
-          <Route path="dashboard/my-profile" element={<MyProfile />} />
-          <Route path="dashboard/Settings" element={<Settings />} />
-          <Route path="dashboard/add-property" element={<AddProperty />} />
+          <Route path="/dashboard/my-profile" element={<MyProfile />} />
+          <Route path="/dashboard/Settings" element={<Settings />} />
+          <Route path="/dashboard/add-property" element={<AddProperty />} />
           <Route path="/dashboard/my-properties" element={<MyProperties />} />
           <Route path="/dashboard/add-loan-application" element={<AddLoanApplication/>} />
           <Route path="/dashboard/my-loan-applications" element={<MyLoanApplication />} />

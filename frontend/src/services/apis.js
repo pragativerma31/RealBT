@@ -46,5 +46,5 @@ export const loanApplicationEndpoints = {
   CREATE_LOAN_APPLICATION_API : BASE_URL + "/loanApplications/createLoanApplication",
   EDIT_LOAN_APPLICATION_API: BASE_URL + "/loanApplications/editLoanApplication",
   DELETE_LOAN_APPLICATION_API: BASE_URL + "/loanApplications/deleteLoanApplication",
-
+  FETCH_CUSTOMER_APPLICATION_API:BASE_URL+"/loanApplications/getAllApplications"
 }

@@ -8,7 +8,7 @@ const LoanApplicationSchema = new mongoose.Schema({
     },
     loanType: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Loantypes", // Assuming you have a User schema
+        ref: "LoanTypes", // Assuming you have a User schema
         required: true
     },
     loanAmount: {

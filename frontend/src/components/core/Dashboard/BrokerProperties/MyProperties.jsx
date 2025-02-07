@@ -34,7 +34,7 @@ export default function MyProperties() {
         <h1 className="text-3xl font-medium text-richblack-5">My Properties</h1>
         <IconBtn
           text="Add Property"
-          onClick={() => navigate("/dashboard/add-property")}
+          onclick={() => navigate("/dashboard/add-property")}
         >
           <VscAdd />
         </IconBtn>

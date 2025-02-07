@@ -85,4 +85,34 @@ exports.editLoanApplication = async (req, res) => {
     }
 };
 
+exports.fetchCustomersApplication = async (req, res) => {
+    try {
+        const Customer_Id = req.user.id; // Extract customer's ID from the request (Authenticated User)
+
+        // Fetch all loan applications associated with the logged-in customer
+        const loanApplications = await LoanApplication.find({ customer: Customer_Id }).populate("loanType", "name");;
+        console.log(loanApplications)
+        // If no applications are found
+        if (!loanApplications || loanApplications.length === 0) {
+            return res.status(404).json({
+                success: false,
+                message: "No loan applications found for this customer.",
+            });
+        }
+
+        res.status(200).json({
+            success: true,
+            message: "Loan applications fetched successfully.",
+            loanApplications,
+        });
+
+    } catch (error) {
+        console.error("FETCH CUSTOMERS APPLICATION ERROR:", error);
+        res.status(500).json({
+            success: false,
+            message: "Something went wrong while fetching customer's applications.",
+        });
+    }
+};
+
 

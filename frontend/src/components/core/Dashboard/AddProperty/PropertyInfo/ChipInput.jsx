@@ -13,7 +13,6 @@ export default function ChipInput({
   register,
   errors,
   setValue,
-  getValues,
 }) {
   const { editProperty, property } = useSelector((state) => state.property)
 
@@ -63,7 +62,7 @@ export default function ChipInput({
   return (
     <div className="flex flex-col space-y-2">
       {/* Render the label for the input */}
-      <label className="text-sm text-richblack-5" htmlFor={name}>
+      <label className="text-sm" htmlFor={name}>
         {label} <sup className="text-pink-200">*</sup>
       </label>
       {/* Render the chips and input */}
@@ -93,7 +92,7 @@ export default function ChipInput({
           type="text"
           placeholder={placeholder}
           onKeyDown={handleKeyDown}
-          className="form-style w-full"
+          className="form-style w-full bg-richblack-700 text-white border border-richblack-700 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-yellow-500"
         />
       </div>
       {/* Render an error message if the input is required and not filled */}
