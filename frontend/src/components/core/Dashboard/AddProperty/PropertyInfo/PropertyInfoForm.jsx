@@ -157,14 +157,14 @@ export default function PropertyInformationForm() {
     >
       {/* Property Title */}
       <div className="flex flex-col space-y-2">
-        <label className="text-sm text-richblack-5" htmlFor="propertyTitle">
+        <label className="text-sm " htmlFor="propertyTitle">
           Property Title <sup className="text-pink-200">*</sup>
         </label>
         <input
           id="propertyTitle"
           placeholder="Enter Property Title"
           {...register("propertyTitle", { required: true })}
-          className="form-style w-full"
+          className="form-style w-full bg-richblack-700"
         />
         {errors.propertyTitle && (
           <span className="ml-2 text-xs tracking-wide text-pink-200">
@@ -174,7 +174,7 @@ export default function PropertyInformationForm() {
       </div>
       {/* Property Short Description */}
       <div className="flex flex-col space-y-2">
-        <label className="text-sm text-richblack-5" htmlFor="propertyShortDesc">
+        <label className="text-sm " htmlFor="propertyShortDesc">
           Property Short Description <sup className="text-pink-200">*</sup>
         </label>
         <textarea
@@ -191,14 +191,14 @@ export default function PropertyInformationForm() {
       </div>
       {/* Property Address */}
       <div className="flex flex-col space-y-2">
-        <label className="text-sm text-richblack-5" htmlFor="propertyAddress">
+        <label className="text-sm " htmlFor="propertyAddress">
           Property's Address <sup className="text-pink-200">*</sup>
         </label>
         <input
           id="propertyAddress"
           placeholder="Enter Property Address"
           {...register("propertyAddress", { required: true })}
-          className="form-style w-full"
+          className="form-style w-full bg-richblack-700 text-white border border-richblack-700 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-yellow-500"
         />
         {errors.propertyAddress && (
           <span className="ml-2 text-xs tracking-wide text-pink-200">
@@ -208,7 +208,7 @@ export default function PropertyInformationForm() {
       </div>
       {/* Property Price */}
       <div className="flex flex-col space-y-2">
-        <label className="text-sm text-richblack-5" htmlFor="propertyPrice">
+        <label className="text-sm " htmlFor="propertyPrice">
           Property Price <sup className="text-pink-200">*</sup>
         </label>
         <div className="relative">
@@ -222,7 +222,7 @@ export default function PropertyInformationForm() {
                 value: /^(0|[1-9]\d*)(\.\d+)?$/,
               },
             })}
-            className="form-style w-full !pl-12"
+            className="form-style w-full !pl-12 bg-richblack-700 text-white border border-richblack-700 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-yellow-500"
           />
           <HiOutlineCurrencyRupee className="absolute left-3 top-1/2 inline-block -translate-y-1/2 text-2xl text-richblack-400" />
         </div>
@@ -234,14 +234,14 @@ export default function PropertyInformationForm() {
       </div>
       {/* Property Category */}
       <div className="flex flex-col space-y-2">
-        <label className="text-sm text-richblack-5" htmlFor="propertyCategory">
+        <label className="text-sm" htmlFor="propertyCategory">
           Property Category <sup className="text-pink-200">*</sup>
         </label>
         <select
           {...register("propertyCategory", { required: true })}
           defaultValue=""
           id="propertyCategory"
-          className="form-style w-full"
+          className="form-style w-full bg-richblack-700 text-white border border-richblack-700 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-yellow-500"
         >
           <option value="" disabled>
             Choose a Category
@@ -280,7 +280,7 @@ export default function PropertyInformationForm() {
       />
       {/* Amenities of the Property */}
       <div className="flex flex-col space-y-2">
-        <label className="text-sm text-richblack-5" htmlFor="propertyAmenities">
+        <label className="text-sm " htmlFor="propertyAmenities">
           Property's amenities  <sup className="text-pink-200">*</sup>
         </label>
         <textarea

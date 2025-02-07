@@ -35,7 +35,7 @@ export default function PropertiesTable({properties}) {
       alert("Error: Property ID is missing!"); // Prevent silent failure
       return;
     }
-    navigate(`/properties/property/${propertyId}`);
+    navigate(`/properties/${propertyId}`);
   };
 
   return (
@@ -68,7 +68,7 @@ export default function PropertiesTable({properties}) {
             properties?.map((property) => (
               <Tr
                 key={property._id}
-                className="flex gap-x-10 border-b border-richblack-800 px-6 py-8"
+                className="flex gap-x-10 border-b border-richblack-800 px-6 py-8 cursor-pointer hover:bg-richblack-700 transition-all"
                 onClick={() => handleSingleProperty(property._id)}
               >
                 <Td className="flex flex-1 gap-x-4">

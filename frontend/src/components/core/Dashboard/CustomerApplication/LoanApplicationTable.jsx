@@ -10,7 +10,6 @@ import { useNavigate } from "react-router-dom";
 
 import { formatDate } from "../../../../services/formatDate";
 import { deleteLoanApplication } from "../../../../services/operations/LoanApplicationAPI";
-import { APPLICATION_STATUS } from "../../../../utils/constants";
 import ConfirmationModal from "../../../common/ConfirmationModal";
 
 export default function LoanApplicationTable({ loanApplications }) {
@@ -23,34 +22,36 @@ export default function LoanApplicationTable({ loanApplications }) {
   const handleLoanDelete = async (applicationId) => {
     setLoading(true);
     await deleteLoanApplication({ _id: applicationId }, token);
-
     setConfirmationModal(null);
     setLoading(false);
   };
 
+  const handleSingleApplication = (applicationId) => {
+    if (!applicationId) {
+      alert("Error: Application ID is missing!"); // Prevent silent failure
+      return;
+    }
+    navigate(`/properties/${applicationId}`);
+  };
+
   return (
     <>
-      <Table className="rounded-xl border border-richblack-800">
+      <Table className="w-full border border-richblack-800 table-fixed">
         <Thead>
-          <Tr className="flex gap-x-10 rounded-t-md border-b border-b-richblack-800 px-6 py-2">
-            <Th className="text-left text-sm font-medium uppercase text-richblack-100">
-              Loan Type
-            </Th>
-            <Th className="text-left text-sm font-medium uppercase text-richblack-100">
-              Amount
-            </Th>
-            <Th className="text-left text-sm font-medium uppercase text-richblack-100">
-              Status
-            </Th>
-            <Th className="text-left text-sm font-medium uppercase text-richblack-100">
-              Actions
-            </Th>
+          <Tr className="bg-richblack-800 text-white">
+            <Th className="p-4 text-left text-sm font-medium uppercase">Loan Type</Th>
+            <Th className="p-4 text-left text-sm font-medium uppercase">Amount</Th>
+            <Th className="p-4 text-left text-sm font-medium uppercase">Interest Rate</Th>
+            <Th className="p-4 text-left text-sm font-medium uppercase">Tenure</Th>
+            <Th className="p-4 text-left text-sm font-medium uppercase">Status</Th>
+            <Th className="p-4 text-left text-sm font-medium uppercase">Posted on</Th>
+            <Th className="p-4 text-left text-sm font-medium uppercase">Actions</Th>
           </Tr>
         </Thead>
         <Tbody>
           {loanApplications?.length === 0 ? (
             <Tr>
-              <Td className="py-10 text-center text-2xl font-medium text-richblack-100">
+              <Td colSpan="7" className="py-10 text-center text-2xl font-medium text-richblack-100">
                 No Loan Applications Found
               </Td>
             </Tr>
@@ -58,36 +59,47 @@ export default function LoanApplicationTable({ loanApplications }) {
             loanApplications?.map((application) => (
               <Tr
                 key={application._id}
-                className="flex gap-x-10 border-b border-richblack-800 px-6 py-8"
+                className="border-b border-richblack-800 cursor-pointer hover:bg-richblack-700 transition-all"
+                onClick={() => handleSingleApplication(application._id)}
               >
-                <Td className="text-sm font-medium text-richblack-100">
-                  {application.loanType}
+                <Td className="p-4 text-sm font-medium text-richblack-100">
+                  {application.loanType?.name || "N/A"}
                 </Td>
-                <Td className="text-sm font-medium text-richblack-100">
-                  ₹{application.amount}
+                <Td className="p-4 text-sm font-medium text-richblack-100">
+                  ₹{application.loanAmount}
                 </Td>
-                <Td className="text-sm font-medium text-richblack-100">
-                  {application.status === APPLICATION_STATUS.PENDING ? (
-                    <p className="flex w-fit flex-row items-center gap-2 rounded-full bg-richblack-700 px-2 py-[2px] text-[12px] font-medium text-pink-100">
+                <Td className="p-4 text-sm font-medium text-richblack-100">
+                  {application.interestRate}%
+                </Td>
+                <Td className="p-4 text-sm font-medium text-richblack-100">
+                  {application.tenure} months
+                </Td>
+                <Td className="p-4 text-sm font-medium text-richblack-100">
+                  {application.status === "Pending" ? (
+                    <span className="flex items-center gap-2 px-2 py-1 text-[12px] font-medium bg-red-700 text-white rounded-full">
                       <HiClock size={14} />
                       Pending
-                    </p>
+                    </span>
                   ) : (
-                    <p className="flex w-fit flex-row items-center gap-2 rounded-full bg-richblack-700 px-2 py-[2px] text-[12px] font-medium text-yellow-100">
-                      <div className="flex h-3 w-3 items-center justify-center rounded-full bg-yellow-100 text-richblack-700">
-                        <FaCheck size={8} />
-                      </div>
+                    <span className="flex items-center gap-2 px-2 py-1 text-[12px] font-medium bg-green-400 text-white rounded-full">
+                      <FaCheck size={12} />
                       Approved
-                    </p>
+                    </span>
                   )}
                 </Td>
-                <Td className="text-sm font-medium text-richblack-100">
+                <Td className="p-4 text-sm font-medium text-richblack-100">
+                  {formatDate(application.createdAt)}
+                </Td>
+                <Td className="p-4 text-sm font-medium text-richblack-100 flex gap-3">
                   {/* Edit Button */}
                   <button
                     disabled={loading}
-                    onClick={() => navigate(`/dashboard/edit-loan/${application._id}`)}
+                    onClick={(event) => {
+                      event.stopPropagation(); // Prevent row click event
+                      navigate(`/dashboard/edit-loan/${application._id}`);
+                    }}
                     title="Edit"
-                    className="px-2 transition-all duration-200 hover:scale-110 hover:text-caribbeangreen-300"
+                    className="text-blue-400 hover:scale-110 transition-transform duration-200"
                   >
                     <FiEdit2 size={20} />
                   </button>
@@ -95,7 +107,8 @@ export default function LoanApplicationTable({ loanApplications }) {
                   {/* Delete Button */}
                   <button
                     disabled={loading}
-                    onClick={() =>
+                    onClick={(event) => {
+                      event.stopPropagation(); // Prevent row click event
                       setConfirmationModal({
                         text1: "Do you want to delete this loan application?",
                         text2: "All data related to this loan will be deleted.",
@@ -103,10 +116,10 @@ export default function LoanApplicationTable({ loanApplications }) {
                         btn2Text: "Cancel",
                         btn1Handler: loading ? () => {} : () => handleLoanDelete(application._id),
                         btn2Handler: loading ? () => {} : () => setConfirmationModal(null),
-                      })
-                    }
+                      });
+                    }}
                     title="Delete"
-                    className="px-1 transition-all duration-200 hover:scale-110 hover:text-[#ff0000]"
+                    className="text-red-700 hover:scale-110 transition-transform duration-200"
                   >
                     <RiDeleteBin6Line size={20} />
                   </button>

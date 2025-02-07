@@ -10,7 +10,7 @@ import LoanApplicationTable from "./LoanApplicationTable";
 
 export default function MyLoanApplication() {
   const { token } = useSelector((state) => state.auth);
-  const [loanApplication ,setloanApplication ] = useState([])
+  const [loanApplications ,setloanApplications ] = useState([])
   const navigate = useNavigate();
   const dispatch  = useDispatch();
 
@@ -18,29 +18,29 @@ export default function MyLoanApplication() {
     const fetchloanApplication = async () => {
       try {
         const result = await dispatch(fetchCustomerApplication(token));
-        console.log("Fetched loan application:", result);
+        console.log("Fetched loan application...............................:", result);
         if (result) {
-          setloanApplication(result);  // ✅ No error now
+          setloanApplications(result);  // ✅ No error now
         }
       } catch (error) {
         console.error("Error fetching properties:", error);
       }
     };
     fetchloanApplication();
-  }, [dispatch, token]);  // ✅ Added dependencies
+  },[token]);  // ✅ Added dependencies
 
   return (
     <div>
       <div className="mb-14 flex items-center justify-between">
-        <h1 className="text-3xl font-medium text-richblack-5">My Properties</h1>
+        <h1 className="text-3xl font-medium text-richblack-5">My Loan Applications</h1>
         <IconBtn
           text="Add Loan Application"
-          onClick={() => navigate("/dashboard/my-loan-applications")}
+          onclick={() => navigate("/dashboard/add-loan-application")}
         >
           <VscAdd />
         </IconBtn>
       </div>
-      {loanApplication &&  <LoanApplicationTable loanApplications={loanApplication} />}
+      {loanApplications &&  <LoanApplicationTable loanApplications={loanApplications} />}
     </div>
   );
 }

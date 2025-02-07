@@ -3,7 +3,7 @@ import apiConnector from "../apiConnector";
 import { loanApplicationEndpoints, loanTypesEndpoints } from "../apis";
 
 const { GET_LOAN_TYPES_API } = loanTypesEndpoints;
-const { CREATE_LOAN_APPLICATION_API, EDIT_LOAN_APPLICATION_API,DELETE_LOAN_APPLICATION_API } = loanApplicationEndpoints;
+const { CREATE_LOAN_APPLICATION_API, EDIT_LOAN_APPLICATION_API,DELETE_LOAN_APPLICATION_API, FETCH_CUSTOMER_APPLICATION_API } = loanApplicationEndpoints;
 
 // Fetch Loan Types
 export const fetchLoanTypes = async () => {
@@ -67,34 +67,36 @@ export const editApplicationDetails = async (data, token) => {
     toast.dismiss(toastId);
     return result;
 };
-const { FETCH_CUSTOMER_APPLICATION_API } = loanApplicationEndpoints;
 
-export const fetchCustomerApplication = async (token) => {
-    let result = [];
-    const toastId = toast.loading("Fetching Loan Applications...");
-
-    try {
+export const fetchCustomerApplication = (token) => {
+    return async (dispatch) => {
+        let result = []
+      const toastId = toast.loading("Fetching loan applications...");
+  
+      try {
         const response = await apiConnector("GET", FETCH_CUSTOMER_APPLICATION_API, null, {
-            Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         });
-
+  
         console.log("FETCH CUSTOMER APPLICATION API RESPONSE:", response);
-
+  
         if (!response?.data?.success) {
-            throw new Error(response?.data?.message || "Could not fetch loan applications");
+          throw new Error(response?.data?.message || "Could not fetch loan applications");
         }
-
+  
         result = response?.data?.loanApplications;
-        toast.success("Loan Applications fetched successfully");
-    } catch (error) {
+        toast.success("Loan applications fetched successfully");
+        console.log(result);
+      } catch (error) {
         console.error("FETCH CUSTOMER APPLICATION API ERROR:", error);
         toast.error(error?.response?.data?.message || error.message || "Something went wrong");
-    } finally {
+      } finally {
         toast.dismiss(toastId);
-    }
-
-    return result;
-};
+      }
+      return result;
+    };
+  };
+  
 export const deleteLoanApplication = async (applicationId, token) => {
     const toastId = toast.loading("Deleting Loan Application...");
     try {

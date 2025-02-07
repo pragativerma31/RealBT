@@ -1,3 +1,27 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+input {
+    @apply bg-richblack-800 text-white border border-richblack-700 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-yellow-500;
+}
+textarea {
+    @apply bg-richblack-700 text-white border border-richblack-700 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-yellow-500;
+}
+select {
+    @apply bg-richblack-800 text-white border border-richblack-700 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-yellow-500;
+}
+label {
+    @apply text-yellow-50;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-text-fill-color: white !important;
+  -webkit-box-shadow: 0 0 0 1000px #161D29 inset !important; /* richblack-600 */
+  background-clip: content-box !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+

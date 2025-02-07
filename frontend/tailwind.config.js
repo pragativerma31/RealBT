@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  mode: "jit", // (Optional: Needed only for older versions)
   theme: {
     fontFamily: {
       inter: ["Inter", "sans-serif"],
@@ -108,6 +109,34 @@ module.exports = {
         700: "#553F02",
         800: "#3D2A01",
         900: "#251400",
+      },
+      red: {
+        5: "#FFEBEB",
+        25: "#FFC5C5",
+        50: "#FF9E9E",
+        100: "#FF7878",
+        200: "#FF5252",
+        300: "#FF2B2B",
+        400: "#FF0000",
+        500: "#E00000",
+        600: "#C00000",
+        700: "#A00000",
+        800: "#800000",
+        900: "#600000",
+      },
+      green: {
+        5: "#EAFEF3",
+        25: "#B8F8D0",
+        50: "#86F3AE",
+        100: "#54EE8C",
+        200: "#22E96A",
+        300: "#1FCC5D",
+        400: "#1CB050",
+        500: "#189343",
+        600: "#147636",
+        700: "#105A29",
+        800: "#0C3D1C",
+        900: "#08200F",
       },
       "pure-greys": {
         5: "#F9F9F9",
