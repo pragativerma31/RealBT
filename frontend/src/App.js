@@ -23,8 +23,7 @@ import MyLoanApplication from "./components/core/Dashboard/CustomerApplication/M
 import PropertyCatalog from "./pages/PropertyCatalog";
 import LoanApplicationCatalog from "./pages/ApplicationCatalog";
 import LoanOffersCatalog from "./pages/LoanOffersCatalog";
-
-
+import AddLoanOffer from "./components/core/Dashboard/AddloanOffer/index";
 
 function App() {
   const {user} = useSelector((state) => state.profile)
@@ -54,6 +53,9 @@ function App() {
           <Route path="/dashboard/my-properties" element={<MyProperties />} />
           <Route path="/dashboard/add-loan-application" element={<AddLoanApplication/>} />
           <Route path="/dashboard/my-loan-applications" element={<MyLoanApplication />} />
+          <Route path="/dashboard/add-loan-offers" element={<AddLoanOffer />} />
+          
+    
         </Route>
         <Route path="/properties" element={<PropertyCatalog/>}/>
         <Route path="/loanApplications" element={<LoanApplicationCatalog/>}/>
