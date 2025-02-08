@@ -32,6 +32,12 @@ const LoanApplicationSchema = new mongoose.Schema({
         enum: ["Pending", "Approved", "Rejected"],
         default: "Pending"
     },
+    loanOffers: [
+        {
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: "LoanOffer"
+        }
+    ],
     createdAt: {
         type: Date,
         default: Date.now

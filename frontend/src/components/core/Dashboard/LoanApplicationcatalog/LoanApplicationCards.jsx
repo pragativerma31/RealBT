@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Clock, CalendarClock, FileText, CheckCircle, XCircle } from "lucide-react";
+import { Clock, CalendarClock, FileText, CheckCircle, BadgeDollarSign } from "lucide-react";
 
 function LoanApplication_Card({ loanApplication }) {
   const navigate = useNavigate();
@@ -54,6 +54,13 @@ function LoanApplication_Card({ loanApplication }) {
       {/* Action Buttons */}
       <div className="flex justify-between items-center gap-10 mt-4">
         <div className="flex gap-6">
+          <button
+            onClick={(e) => handleNavigation(e, `/loan-applications/${loanApplication._id}/loan-offers`)}
+            className="bg-red-700 text-richblack-900 px-4 py-2 rounded-md font-semibold hover:bg-red-600 transition flex items-center gap-2"
+          >
+            <BadgeDollarSign className="w-5 h-5" />
+            Loan Offers
+          </button>
           <button
             onClick={(e) => handleNavigation(e, `/loan-applications/${loanApplication._id}/details`)}
             className="bg-yellow-400 text-richblack-900 px-4 py-2 rounded-md font-semibold hover:bg-yellow-500 transition flex items-center gap-2"

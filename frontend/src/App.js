@@ -22,6 +22,7 @@ import AddLoanApplication from "./components/core/Dashboard/AddLoanApplication";
 import MyLoanApplication from "./components/core/Dashboard/CustomerApplication/MyLoanApplication";
 import PropertyCatalog from "./pages/PropertyCatalog";
 import LoanApplicationCatalog from "./pages/ApplicationCatalog";
+import LoanOffersCatalog from "./pages/LoanOffersCatalog";
 
 
 
@@ -56,6 +57,8 @@ function App() {
         </Route>
         <Route path="/properties" element={<PropertyCatalog/>}/>
         <Route path="/loanApplications" element={<LoanApplicationCatalog/>}/>
+        <Route path ="/properties/:propertyID/loan-offers" element={<LoanOffersCatalog/>}/>
+        <Route path = "/loan-applications/:loanApplicationID/loan-offers" element={<LoanOffersCatalog/>}/>
       </Routes>
 
     </div>

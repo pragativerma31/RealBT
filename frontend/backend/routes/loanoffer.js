@@ -1,8 +1,8 @@
 const express = require("express")
 const router = express.Router()
-const { auth } = require("../middlewares/Auth");
+const { auth, authenticateToken } = require("../middlewares/Auth");
 const {isBanker } = require("../middlewares/Auth");
-const { createLoanOffer, deleteLoanOffer, showAllLoanOffers } = require("../controllers/loanoffer");
+const {  deleteLoanOffer, showAllLoanOffers, createLoanOfferForProperty, createLoanOfferForApplication } = require("../controllers/loanoffer");
 
 // ********************************************************************************************************
 //                                      Loan Offer routes
@@ -10,12 +10,14 @@ const { createLoanOffer, deleteLoanOffer, showAllLoanOffers } = require("../cont
 
 
 //loan offers can only be created by bankers
-router.post("/createLoanOffer" ,auth , isBanker, createLoanOffer);
+router.post("/createLoanOfferForProperty" , createLoanOfferForProperty);
+router.post("/createLoanOfferForApplication" , createLoanOfferForApplication);
 
 //delete loan offer
-router.delete("/deleteLoanOffer" ,auth,isBanker, deleteLoanOffer);
+router.delete("/deleteLoanOffer" ,authenticateToken,isBanker, deleteLoanOffer);
 
 //show all offers
 router.get("/allLoanOffers" , auth , showAllLoanOffers);
+
 
 module.exports = router

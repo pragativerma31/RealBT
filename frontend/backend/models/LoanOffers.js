@@ -1,7 +1,6 @@
 const mongoose = require("mongoose");
 
 const loanOfferSchema = new mongoose.Schema({
-
   title: {
     type: String,
     required: true,
@@ -14,9 +13,9 @@ const loanOfferSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  tags:{
-    type:[String],
-    required:true
+  tags: {
+    type: [String],
+    required: true,
   },
   interestRate: {
     type: Number,
@@ -42,13 +41,23 @@ const loanOfferSchema = new mongoose.Schema({
   uploadedDocuments: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Document", // Reference to the Document schema
+      ref: "Document",
     },
   ],
+  propertyID: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Property",
+    default: null, // If this offer is linked to a property
+  },
+  loanApplicationID: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "LoanApplication",
+    default: null, // If this offer is linked to a loan application
+  },
   createdAt: {
     type: Date,
     default: Date.now,
   },
+});
 
-})
 module.exports = mongoose.model("LoanOffer", loanOfferSchema);

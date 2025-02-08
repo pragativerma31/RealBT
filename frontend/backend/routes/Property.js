@@ -4,6 +4,7 @@ const { isBroker } = require("../middlewares/Auth");
 const router = express.Router()
 const { authenticateToken } = require("../middlewares/Auth");
 const { PropertyImgupload } = require("../controllers/Uploader");
+const { getPropertyLoanOffers } = require("../controllers/loanoffer");
 
 
 // ********************************************************************************************************
@@ -17,6 +18,9 @@ router.put("/addPropertyView",authenticateToken,isBroker,PropertyImgupload);
 router.get("/fetch-properties",authenticateToken,isBroker,fetchBrokersProperty);
 router.delete("/delete-property/:propertyId",authenticateToken,isBroker,deleteProperty);
 router.get("/getAllProperties",getAllProperties);
+
+router.get("/getAllloan-offers/:propertyID" , getPropertyLoanOffers);
+
 
 
 

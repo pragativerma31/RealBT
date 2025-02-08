@@ -50,3 +50,9 @@ export const loanApplicationEndpoints = {
   FETCH_CUSTOMER_APPLICATION_API:BASE_URL+"/loanApplications/getCustomersApplications",
   GET_ALL_LOAN_APPLICATIONS_API : BASE_URL + "/loanApplications/getAllApplications"
 }
+
+export const loanOffersEndpoints = {
+
+  FETCH_PROPERTY_LOAN_OFFERS_API:BASE_URL+"/properties/getAllloan-offers",
+  FETCH_APPLICATION_LOAN_OFFERS_API:BASE_URL+ "/loanApplications/getAllloan-offers",
+}
