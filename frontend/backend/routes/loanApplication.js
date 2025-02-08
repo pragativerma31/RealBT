@@ -3,6 +3,7 @@ const { createLoanApplication , editLoanApplication, fetchCustomersApplication, 
 const { isCustomer } = require("../middlewares/Auth");
 const router = express.Router()
 const { authenticateToken } = require("../middlewares/Auth");
+const { getApplicationLoanOffers } = require("../controllers/loanoffer");
 
 
 // ********************************************************************************************************
@@ -15,6 +16,7 @@ router.put("/editLoanApplication",authenticateToken,isCustomer,editLoanApplicati
 router.get("/getCustomersApplications",authenticateToken,fetchCustomersApplication);
 router.get("/getAllApplications",getAllLoanApplications)
 
+router.get("/getAllloan-offers/:loanApplicationID",getApplicationLoanOffers)
 
 
 
