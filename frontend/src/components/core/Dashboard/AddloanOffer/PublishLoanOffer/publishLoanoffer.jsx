@@ -4,10 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast"; // ✅ Import toast for success message
 
-import { resetLoanApplicationState,setStep } from "../../../../../slices/loanApplicationSlice";
+import { setStep } from "../../../../../slices/loanOfferslice";
 import IconBtn from "../../../../common/IconBtn";
+import { resetLoanOfferState } from "../../../../../slices/loanOfferslice";
 
-export default function PublishApplication() {
+export default function PublishOffer() {
   const { register, handleSubmit, setValue, formState: { errors } } = useForm({
     defaultValues: {
       public: false, // ✅ Ensure default is unchecked
@@ -16,11 +17,11 @@ export default function PublishApplication() {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { loanApplication } = useSelector((state) => state.loanApplication);
+  const { loanOffer } = useSelector((state) => state.loanOffer);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (loanApplication?.status ==="pending" ) {
+    if (loanOffer?.status ==="Pending" ) {
       setValue("public", true);
     }
   }, []);
@@ -36,13 +37,13 @@ export default function PublishApplication() {
     }
 
     // ✅ Show toast for successful publish
-    toast.success("Loan Application published successfully!");
+    toast.success("Loan Offer published successfully!");
 
     // ✅ Update necessary attributes (Redux, reset state)
-    dispatch(resetLoanApplicationState());
+    dispatch(resetLoanOfferState());
 
     // ✅ Navigate to properties page
-    navigate("/dashboard/my-loan-applications");
+    navigate("/dashboard/my-loan-offers");
   };
 
   return (
@@ -61,7 +62,7 @@ export default function PublishApplication() {
               className="border-gray-300 h-4 w-4 rounded bg-richblack-500 text-richblack-400 focus:ring-2 focus:ring-richblack-5"
             />
             <span className="ml-2 text-richblack-400">
-              Make this Application public
+              Make this Offer public
             </span>
           </label>
           {errors.public && (
@@ -79,7 +80,7 @@ export default function PublishApplication() {
           >
             Back
           </button>
-          <IconBtn disabled={loading} text="Save Changes" />
+          <IconBtn disabled={loading} text="Save Changes" type="submit" />
         </div>
       </form>
     </div>

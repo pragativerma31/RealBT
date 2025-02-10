@@ -7,9 +7,10 @@ const LoanApplication = require('../models/loanApplication')
 exports.createLoanOfferForProperty = async (req, res) => {
     try {
         // 1. **Data Fetch**
-        const { title, loanType, description, interestRate, tenureInMonths, maxLoanAmount, minLoanAmount, requiredDocuments, propertyId, userId } = req.body;
-        // const userId  = req.user.id; 
+        const { title, loanType, description, interestRate, tenureInMonths, maxLoanAmount, minLoanAmount, requiredDocuments, propertyId } = req.body;
+        const userId  = req.user.id; 
 
+        console.log(req.body);
         const user = await User.findById(userId);
         if (!user) {
             return res.status(404).json({
@@ -38,6 +39,7 @@ exports.createLoanOfferForProperty = async (req, res) => {
 
         // 3. **Create Loan Offer**
         const loanOffer = await LoanOffer.create({
+            BankerId:userId,
             title,
             loanType,
             description,
@@ -75,8 +77,8 @@ exports.createLoanOfferForProperty = async (req, res) => {
 exports.createLoanOfferForApplication = async (req, res) => {
     try {
         // 1. **Data Fetch**
-        const { title, loanType, description, interestRate, tenureInMonths, maxLoanAmount, minLoanAmount, requiredDocuments, loanApplicationId,userId } = req.body;
-        // const userId = req.user.id;
+        const { title, loanType, description, interestRate, tenureInMonths, maxLoanAmount, minLoanAmount, requiredDocuments, loanApplicationId } = req.body;
+        const userId = req.user.id;
 
         // 2. **Find User**
         const user = await User.findById(userId);
@@ -106,6 +108,7 @@ exports.createLoanOfferForApplication = async (req, res) => {
 
         // 5. **Create Loan Offer**
         const loanOffer = await LoanOffer.create({
+            BankerId:userId,
             title,
             loanType,
             description,
@@ -282,3 +285,36 @@ exports.getApplicationLoanOffers = async (req, res) => {
   }
 };
 
+// Controller to fetch all bankers' offers
+exports.getAllBankersOffer = async (req, res) => {
+    try {
+        // Fetching all bankers' offers from the database
+        const {userId} = req.user.id
+        const loanOffers = await LoanOffer.find({BankerId:userId}) // Populate 'bank' field if needed (adjust as necessary)
+
+        // If no offers are found, return a 404 response
+        if (!loanOffers || loanOffers.length === 0) {
+            return res.status(404).json({
+                success: false,
+                message: "No bankers' offers found"
+            });
+        }
+
+        // Sending back the fetched offers
+        return res.status(200).json({
+            success: true,
+            message: 'Bankers offers fetched successfully',
+            loanOffers,
+        });
+
+    } catch (error) {
+        console.error("Error fetching bankers offers:", error);
+        
+        // Send error response in case of failure
+        return res.status(500).json({
+            success: false,
+            message: "Failed to fetch bankers offers",
+            error: error.message
+        });
+    }
+};

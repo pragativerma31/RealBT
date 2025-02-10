@@ -1,20 +1,22 @@
 const mongoose = require("mongoose");
 
 const loanOfferSchema = new mongoose.Schema({
+  BankerId: { 
+    type: mongoose.Schema.Types.ObjectId, 
+    ref: "User", 
+    required: true 
+  },
   title: {
     type: String,
     required: true,
   },
   loanType: {
-    type: String,
-    required: true,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "LoanTypes", // Assuming you have a User schema
+    required: true
   },
   description: {
     type: String,
-    required: true,
-  },
-  tags: {
-    type: [String],
     required: true,
   },
   interestRate: {
@@ -38,6 +40,11 @@ const loanOfferSchema = new mongoose.Schema({
       type: String, // Names of required documents (e.g., "ID Proof", "Income Certificate")
     },
   ],
+  status: {
+    type: String,
+    enum: ["Pending", "Approved", "Rejected"],
+    default: "Pending"
+  },
   uploadedDocuments: [
     {
       type: mongoose.Schema.Types.ObjectId,

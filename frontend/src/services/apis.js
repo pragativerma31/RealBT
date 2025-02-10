@@ -57,4 +57,5 @@ export const loanOffersEndpoints = {
   FETCH_APPLICATION_LOAN_OFFERS_API:BASE_URL+ "/loanApplications/getAllloan-offers",
   CREATE_LOAN_OFFER_FOR_PROPERTY: BASE_URL + "/loanOffers/createLoanOfferForProperty",
   CREATE_LOAN_OFFER_FOR_APPLICATION: BASE_URL + "/loanOffers/createLoanOfferForApplication",
+  FETCH_BANKERS_LOAN_OFFERS_API:BASE_URL+"/loanOffers/getAllBankers-offers"
 }
