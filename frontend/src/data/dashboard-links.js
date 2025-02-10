@@ -66,7 +66,8 @@ export const sidebarLinks = [
   {
     id: 10,
     name: "Add Loan Offers",
-    path: "/dashboard/add-loan-offers",
+    path1: "loanOffers/property/:propertyID/add-loan-offer",
+    path2:"loanOffers/loanapplication/:loanApplicationID/add-loan-offer",
     type: ACCOUNT_TYPE.LOANPROVIDER,
     icon: "VscDiffAdded", // Adding Loan Offers Icon
   },

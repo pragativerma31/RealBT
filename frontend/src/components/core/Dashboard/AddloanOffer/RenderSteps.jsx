@@ -2,19 +2,19 @@ import { FaCheck } from "react-icons/fa"
 import { useSelector } from "react-redux"
 
 import LoanOfferForm from "./LoanOfferForm/loanofferForm"
-import PublishApplication from "./PublishLoanOffer/publishLoanoffer"
+import PublishOffer from "./PublishLoanOffer/publishLoanoffer"
 
 export default function RenderSteps() {
-  const { step } = useSelector((state) => state.loanApplication)
+  const { step } = useSelector((state) => state.loanOffer)
 
   const steps = [
     {
       id: 1,
-      title: "Application Information",
+      title: "Loan Offer Information",
     },
     {
       id: 2,
-      title: "Publish Application",
+      title: "Publish Offer",
     },
   ]
 
@@ -77,7 +77,7 @@ export default function RenderSteps() {
       </div>
       {/* Render specific component based on current step */}
       {step === 1 && <LoanOfferForm />}
-      {step === 2 && <PublishApplication />}
+      {step === 2 && <PublishOffer/>}
     </>
   )
 }
