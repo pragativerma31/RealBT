@@ -10,6 +10,7 @@ Whether you're looking for a **home loan, personal loan, business funding, or ve
 - [Features](#-features)
 - [Tech Stack](#-tech-stack)
 - [Project Architecture](#-project-architecture)
+- [Process Flow](#-process-flow)
 - [Getting Started](#-getting-started)
 - [Contact](#-contact)
 
@@ -114,6 +115,100 @@ REALBT/
 ```
 
 ---
+## 🔁 Process Flow
+
+
+### 🏠 I. Property-Based Loan Flow (Broker-Oriented)
+
+**Objective:** Help brokers sell properties and attract loan providers, simplifying customer loan acquisition.
+
+1. **Broker Onboarding & Property Listing**
+   - Brokers register/login.
+   - Post detailed property listings (price, location, documents, photos).
+
+2. **Loan Provider Bidding**
+   - Loan providers browse listed properties.
+   - Select properties they want to offer loans for.
+   - Submit loan offers with interest rates, terms, and EMI options.
+
+3. **Customer Browsing & Selection**
+   - Customers browse property listings.
+   - View associated loan offers per property.
+   - Select a suitable property + loan combination.
+
+4. **Loan Document Upload**
+   - Customers upload required documents (income proof, ID, etc.).
+   - Await approval from the selected loan provider.
+
+5. **Loan Provider Review**
+   - Providers scan documents.
+   - Approve or reject based on eligibility.
+
+6. **Finalization**
+   - If approved: loan process begins, and property booking continues.
+   - If rejected: customer can choose another loan offer/provider.
+
+
+
+### 📄 II. Loan Application-Based Flow (Customer-Oriented)
+
+**Objective:** Allow customers to request loans directly, independent of property listings.
+
+1. **Customer Loan Application**
+   - Customers fill out a structured loan application form.
+   - Specify required amount, purpose (e.g., home, personal), and tenure.
+   - Upload eligibility documents.
+
+2. **Background Processing**
+   - Applications are stored securely.
+   - Customers cannot contact providers directly.
+
+3. **Loan Provider Dashboard**
+   - Providers view anonymous loan applications.
+   - Filter based on eligibility (income, CIBIL score, etc.).
+
+4. **Screening & Offer Submission**
+   - Providers scan uploaded documents.
+   - Select eligible applications.
+   - Submit loan offers.
+
+5. **Customer Offer Selection**
+   - Customers receive loan offers from multiple providers.
+   - Compare terms and choose the preferred one.
+
+6. **Verification & Final Steps**
+   - Final document verification (if required).
+   - Loan is sanctioned and processed.
+
+
+
+### ✅ III. Eligibility Verification Flow
+
+**Goal:** Simplify filtering for providers and reduce unqualified leads.
+
+1. **Mandatory Document Upload**
+   - Customers must upload eligibility documents (PAN, Aadhaar, salary slips) before accessing offers.
+
+2. **Provider Screening**
+   - Providers preview documents on their dashboard.
+   - Approve/reject based on their internal policies.
+
+3. **Filtered Contact**
+   - Only approved customers are contacted by providers.
+   - Prevents spam and ensures a clean pipeline.
+
+
+
+### 🎯 IV. Stakeholder Benefits
+
+| Stakeholder       | Benefits                                                                 |
+|-------------------|--------------------------------------------------------------------------|
+| **Brokers**        | Boost property sales, attract buyers, and streamline loan discovery.     |
+| **Loan Providers** | Get pre-filtered eligible leads, reduce noise, and improve conversions.  |
+| **Customers**      | Explore properties with built-in loan offers or apply directly for loans. No need to search for banks manually. |
+
+---
+
 ## ⚙️ Getting Started
 
 ### 📥 Clone the Repository
