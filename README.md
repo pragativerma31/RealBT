@@ -91,4 +91,10 @@ npm start
 ```
 Frontend runs on: http://localhost:3000
 
+---
+## 📬 Contact
 
+**Project Developers:**
+
+- **Pragati Verma** – [LinkedIn](https://www.linkedin.com/in/pragati-verma-7a7754294/) | [GitHub](https://github.com/pragativerma31)
+- **Kartik Bajpai** – [LinkedIn](https://www.linkedin.com/in/kartik-bajpai-278420312) | [GitHub](https://github.com/kbajpai06)
