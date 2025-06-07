@@ -9,6 +9,7 @@ Whether you're looking for a **home loan, personal loan, business funding, or ve
 
 - [Features](#-features)
 - [Tech Stack](#-tech-stack)
+- [Project Architecture](#-project-architecture)
 - [Getting Started](#-getting-started)
 - [Contact](#-contact)
 
@@ -60,6 +61,57 @@ Whether you're looking for a **home loan, personal loan, business funding, or ve
 - **Postman** – API testing and documentation
 - **Nodemon** – Development server auto-restart
 - **Git/GitHub** – Source control and collaboration
+
+---
+## 🏗 Project Architecture
+```plaintext
+
+REALBT/
+│
+├── client/               # Frontend (React)
+│   ├── public/
+│   ├── src/
+│   │   ├── assets/       # Images and static assets
+│   │   ├── components/   # Reusable UI components
+│   │   ├── data/         # Static/mock data files
+│   │   ├── hooks/        # Custom React hooks
+│   │   ├── pages/        # Route-based components (Home, Login, Dashboard, etc.)
+│   │   ├── reducer/      # Redux logic or context reducers
+│   │   ├── services/     # API services
+│   │   ├── slices/       # Redux slices (if using Redux Toolkit)
+│   │   ├── utilis/       # Utility/helper functions
+│   │   ├── App.js        # Root component
+│   │   ├── index.js      # App entry point
+│   │   └── index.css     # Global styles
+│   ├── package.json
+│   ├── tailwind.config.js
+│   └── postcss.config.js
+│
+├── server/               # Backend (Node.js + Express)
+│   ├── config/           # Configuration files (DB, etc.)
+│   ├── controllers/      # Route logic and handlers
+│   ├── middlewares/      # Auth and role-based access
+│   ├── models/           # Mongoose schema definitions
+│   │   ├── User.js
+│   │   ├── OTP.js
+│   │   ├── Profile.js
+│   │   ├── LoanApplication.js
+│   │   ├── LoanTypes.js
+│   │   ├── LoanOffers.js
+│   │   ├── Property.js
+│   │   ├── Category.js
+│   │   └── UploadedDocs.js
+│   ├── routes/           # API route definitions
+│   ├── templates/        # Email templates (if used)
+│   ├── utils/            # Utility functions (e.g., mail sender)
+│   ├── .env              # Environment variables
+│   └── index.js          # Entry point of backend app
+│
+├── .gitignore
+├── README.md
+└── .env.example          # Safe example of required .env keys
+
+```
 
 ---
 ## ⚙️ Getting Started
