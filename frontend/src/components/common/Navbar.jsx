@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { BsChevronDown } from "react-icons/bs";
-import Logo from "../../assets/Logo/Logo-Full-Light.png";
+import Logo from "../../assets/Logo/RealBTLogo.png";
 import { NavbarLinks } from "../../data/navbar-links";
 import { matchPath, Navigate, useNavigate } from "react-router";
 import ProfileDropDown from "../core/Auth/ProfileDropDown";
